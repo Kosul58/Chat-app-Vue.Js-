@@ -3,7 +3,7 @@ import { ref, reactive, computed, nextTick } from "vue";
 
 import LoginRegister from "./LoginRegister.vue";
 import Messages from "./Messages.vue";
-import FriendList from "./FriendList.vue";
+import FriendList from "./Friendlist.vue";
 // Register the icon
 const friends = reactive([
   {
