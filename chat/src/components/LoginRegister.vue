@@ -9,26 +9,42 @@ const props = defineProps({
 
 const emit = defineEmits(["update-login"]);
 
+let lusername = ref();
+let lpassword = ref();
 let username = ref();
 let password = ref();
 let cpassword = ref();
 let email = ref();
 
-const loginuser = (e) => {
-  e.preventDefault();
-  if (forlogin.value == false) {
-    forlogin.value = true;
-    username = email = password = cpassword = "";
+const loginuser = async (e) => {
+  try {
+    e.preventDefault();
+    if (forlogin.value == false) {
+      forlogin.value = true;
+    }
+    console.log(lusername.value, lpassword.value);
+    console.log("login attempt");
+
+    const logger = await fetch("https://localhost:3000/registeruser", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username: lusername, password: lpassword }),
+    });
+
+    const data = await loginuser.json();
+    console.log(data);
+  } catch (error) {
+    console.log("error", error);
   }
-  console.log(username.value, password.value);
-  emit("update-login", true);
+  // emit("update-login", true);
 };
 
-const registeruser = (e) => {
+const registeruser = async (e) => {
   e.preventDefault();
   if (forlogin.value == true) {
     forlogin.value = false;
-    username = email = password = cpassword = "";
   }
   console.log(username.value, email.value, password.value, cpassword.value);
 };
@@ -41,11 +57,11 @@ const registeruser = (e) => {
         <div class="loginforminside" v-if="forlogin">
           <div>
             <p>User Name:</p>
-            <input type="text" placeholder="kosul" v-model="username" />
+            <input type="text" placeholder="kosul" v-model="lusername" />
           </div>
           <div>
             <p>Password:</p>
-            <input type="password" placeholder="password" v-model="password" />
+            <input type="password" placeholder="password" v-model="lpassword" />
           </div>
         </div>
         <button @click="loginuser($event)">Login</button>
