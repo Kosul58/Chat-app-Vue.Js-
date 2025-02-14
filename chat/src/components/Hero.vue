@@ -5,30 +5,7 @@ import LoginRegister from "./LoginRegister.vue";
 import Messages from "./Messages.vue";
 import FriendList from "./Friendlist.vue";
 // Register the icon
-const friends = reactive([
-  {
-    id: 101,
-    name: "ram",
-    message: {
-      101: [
-        ["yoyo", "2025-02-13-10:15:10"],
-        ["tero", "2025-02-13-10:25:25"],
-      ],
-      100: [
-        ["yaya", "2025-02-13-10:16:25"],
-        ["mero", "2025-02-13-10:22:22"],
-      ],
-    },
-  },
-  { id: 102, name: "sita", message: { 102: ["kaka"], 100: ["kiki"] } },
-  { id: 103, name: "rita" },
-  { id: 104, name: "gita" },
-  { id: 105, name: "hari" },
-  { id: 106, name: "kosul" },
-  { id: 107, name: "kushal" },
-  { id: 108, name: "kopila" },
-  { id: 109, name: "rahul" },
-]);
+const friends = reactive([]);
 
 //to hide or display user account
 let loginmatch = ref(false);
@@ -46,6 +23,12 @@ const logout = () => {
   loginmatch.value = false;
 };
 
+const updatefriend = (data) => {
+  for (let i = 0; i < data.message.length; i++) {
+    friends.push(data.message[i]);
+  }
+};
+
 const handleSendMessage = (message) => {
   if (!ourmessage.value[100]) {
     ourmessage.value[100] = [];
@@ -57,7 +40,11 @@ const handleSendMessage = (message) => {
 </script>
 
 <template>
-  <LoginRegister :loginmatch="loginmatch" @update-login="loginmatch = $event" />
+  <LoginRegister
+    :loginmatch="loginmatch"
+    @update-login="loginmatch = $event"
+    @update-friend="updatefriend"
+  />
   <div class="chat-main" v-if="loginmatch">
     <FriendList
       :friends="friends"

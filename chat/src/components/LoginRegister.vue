@@ -7,7 +7,7 @@ const props = defineProps({
   loginmatch: Boolean, // Accepting loginmatch as a prop
 });
 
-const emit = defineEmits(["update-login"]);
+const emit = defineEmits(["update-login", "update-friend"]);
 
 let lusername = ref();
 let lpassword = ref();
@@ -16,44 +16,89 @@ let password = ref();
 let cpassword = ref();
 let email = ref();
 
-const loginuser = async (e) => {
-  try {
-    e.preventDefault();
-    if (forlogin.value == false) {
-      forlogin.value = true;
+const loginuser = async () => {
+  if (forlogin.value == false) {
+    forlogin.value = true;
+  } else {
+    try {
+      if (!lusername.value || !lpassword.value) {
+        console.log("Please enter both username and password.");
+        return;
+      }
+
+      console.log("Login Attempt:", lusername.value, lpassword.value);
+
+      const response = await fetch("http://localhost:3000/loginuser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: lusername.value,
+          password: lpassword.value,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Login failed: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log(data);
+      // Emit event if login is successful
+      emit("update-login", true);
+      emit("update-friend", data);
+    } catch (error) {
+      console.log("Error:", error);
     }
-    console.log(lusername.value, lpassword.value);
-    console.log("login attempt");
-
-    const logger = await fetch("https://localhost:3000/registeruser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username: lusername, password: lpassword }),
-    });
-
-    const data = await loginuser.json();
-    console.log(data);
-  } catch (error) {
-    console.log("error", error);
   }
-  // emit("update-login", true);
 };
 
-const registeruser = async (e) => {
-  e.preventDefault();
+const registeruser = async () => {
   if (forlogin.value == true) {
     forlogin.value = false;
+  } else {
+    try {
+      if (
+        !username.value ||
+        !email.value ||
+        !password.value ||
+        !cpassword.value
+      ) {
+        alert("Enter all values");
+        return;
+      }
+
+      if (password.value !== cpassword.value) {
+        alert("Passwords do not match");
+        return;
+      }
+
+      const response = await fetch("http://localhost:3000/registeruser", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: username.value,
+          password: password.value,
+          email: email.value,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Register Failed");
+      }
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log("error", error);
+    }
   }
-  console.log(username.value, email.value, password.value, cpassword.value);
 };
 </script>
 
 <template>
   <div class="chat-main" v-if="!loginmatch">
     <div class="formselect">
-      <form class="loginform">
+      <form class="loginform" @submit.prevent="loginuser">
         <div class="loginforminside" v-if="forlogin">
           <div>
             <p>User Name:</p>
@@ -64,9 +109,9 @@ const registeruser = async (e) => {
             <input type="password" placeholder="password" v-model="lpassword" />
           </div>
         </div>
-        <button @click="loginuser($event)">Login</button>
+        <button type="submit">Login</button>
       </form>
-      <form class="registerform">
+      <form class="registerform" @submit.prevent="registeruser">
         <div class="registerforminside" v-if="!forlogin">
           <div>
             <p>User Name:</p>
@@ -82,14 +127,10 @@ const registeruser = async (e) => {
           </div>
           <div>
             <p>Confirm Password:</p>
-            <input
-              type="confirm password"
-              placeholder="password"
-              v-model="cpassword"
-            />
+            <input type="password" placeholder="password" v-model="cpassword" />
           </div>
         </div>
-        <button @click="registeruser($event)">SignUp</button>
+        <button type="submit">SignUp</button>
       </form>
     </div>
   </div>

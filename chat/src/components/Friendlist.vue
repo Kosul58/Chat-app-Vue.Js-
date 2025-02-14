@@ -1,8 +1,9 @@
 <script setup>
+import { ref, reactive, computed } from "vue";
 // import { defineProps, defineEmits } from "vue";
 
 const props = defineProps(["friends"]);
-const emit = defineEmits(["friendclick"]);
+const emit = defineEmits(["friendclick", "logout"]);
 
 const messageLoad = (index) => {
   emit("friendclick", props.friends[index]); // Emit event to parent with selected friend
@@ -11,15 +12,31 @@ const messageLoad = (index) => {
 const logout = () => {
   emit("logout"); // Emit logout event to parent
 };
+const searchinput = ref("");
+const searchuser = async () => {
+  try {
+    const response = await fetch("http://localhost:3000/searchuser", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: searchinput.value }),
+    });
+    const data = await response.json();
+    console.log(data.flat());
+  } catch (error) {
+    console.log("Error:", error);
+  }
+};
 </script>
 
 <template>
   <div class="friendlist">
     <div class="friend-section">
-      <div class="searchbar">
-        <input type="text" />
-        <button>Search</button>
-      </div>
+      <form class="searchbar" @submit.prevent="searchuser">
+        <input type="text" v-model="searchinput" />
+        <button type="submit">Search</button>
+      </form>
       <div
         v-for="(friend, index) in friends"
         :key="friend.id"
