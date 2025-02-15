@@ -29,23 +29,46 @@ const closeConn = async () => {
   }
 };
 
-const searchusers = async (uinfo) => {
+const addfriend = async (id1, id2) => {
   await connectDB();
   try {
-    const name = uinfo;
-    const users = await User.find({ name: name });
-    console.log(users);
-    if (users.length > 0) {
-      return users;
+    const uid = id1;
+    const fid = id2;
+    const user = await User.find({ _id: uid });
+    const friend = await User.find({ _id: fid });
+    console.log(user[0]);
+    const userHasFriend = user[0].message.some((friend) => friend.id === id2);
+    if (userHasFriend) {
+      console.log("User already has this friend.");
+      return "already friends";
     } else {
-      return 0;
+      const add1 = {
+        id: uid,
+        name: user[0].name,
+      };
+
+      const add2 = {
+        id: fid,
+        name: friend[0].name,
+      };
+
+      await User.findByIdAndUpdate(id1, {
+        $push: { message: add2 },
+      });
+
+      await User.findByIdAndUpdate(id2, {
+        $push: { message: add1 },
+      });
+
+      const userx = await User.find({ _id: uid });
+
+      return userx;
     }
   } catch (error) {
     console.error("Error fetching data:", error.message);
-    return []; // Return empty array in case of an error
   } finally {
     await closeConn(); // Always close the connection
   }
 };
 
-export default searchusers;
+export default addfriend;

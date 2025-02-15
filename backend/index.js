@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import users from "./user.js";
 import searchusers from "./searchuser.js";
+import addfriend from "./addfriend.js";
 const app = express();
 const port = 3000;
 
@@ -28,6 +29,13 @@ app.post("/loginuser", async (req, res) => {
 app.post("/searchuser", async (req, res) => {
   const userinfo = req.body.name;
   const data = await searchusers(userinfo);
+  res.json(data);
+});
+
+app.post("/addfriend", async (req, res) => {
+  const { myid, friendid } = req.body;
+  // console.log(myid, friendid);
+  const data = await addfriend(myid, friendid);
   res.json(data);
 });
 

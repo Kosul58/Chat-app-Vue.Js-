@@ -87,7 +87,14 @@ const registeruser = async () => {
         throw new Error("Register Failed");
       }
       const data = await response.json();
-      console.log(data);
+      if (data == 0) {
+        alert("User already exists");
+      } else {
+        // Emit event if login is successful
+        emit("update-login", true);
+        emit("update-friend", data);
+      }
+      // console.log(data);
     } catch (error) {
       console.log("error", error);
     }

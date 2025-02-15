@@ -13,10 +13,14 @@ let loginmatch = ref(false);
 let ourmessage = reactive({});
 //to store data of current id
 let currentid = ref({});
+let username = ref("");
+let userid = ref("");
 
 const messageLoad = (friend) => {
   currentid.value = friend;
   ourmessage.value = { ...friend.message }; // Ensure reactivity
+  // console.log(currentid.value);
+  // console.log(ourmessage.value);
 };
 
 const logout = () => {
@@ -24,9 +28,12 @@ const logout = () => {
 };
 
 const updatefriend = (data) => {
+  friends.length = 0;
   for (let i = 0; i < data.message.length; i++) {
     friends.push(data.message[i]);
   }
+  username.value = data.name;
+  userid.value = data._id;
 };
 
 const handleSendMessage = (message) => {
@@ -47,9 +54,12 @@ const handleSendMessage = (message) => {
   />
   <div class="chat-main" v-if="loginmatch">
     <FriendList
+      :username="username"
+      :userid="userid"
       :friends="friends"
       @friendclick="messageLoad"
       @logout="logout"
+      @update-friend="updatefriend"
     />
     <Messages
       :ourmessage="ourmessage"
