@@ -34,6 +34,7 @@ const updatefriend = (data) => {
   }
   username.value = data.name;
   userid.value = data._id;
+  console.log(username.value);
 };
 
 const handleSendMessage = (message) => {
