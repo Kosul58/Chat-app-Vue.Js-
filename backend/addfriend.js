@@ -45,11 +45,19 @@ const addfriend = async (id1, id2) => {
       const add1 = {
         id: uid,
         name: user[0].name,
+        message: {
+          [uid]: [],
+          [fid]: [],
+        },
       };
 
       const add2 = {
         id: fid,
         name: friend[0].name,
+        message: {
+          [uid]: [],
+          [fid]: [],
+        },
       };
 
       await User.findByIdAndUpdate(id1, {

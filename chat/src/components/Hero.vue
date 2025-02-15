@@ -37,12 +37,14 @@ const updatefriend = (data) => {
 };
 
 const handleSendMessage = (message) => {
-  if (!ourmessage.value[100]) {
-    ourmessage.value[100] = [];
+  console.log(message);
+  console.log(userid.value);
+  console.log(currentid.value.id);
+  const id = userid.value;
+  if (!ourmessage.value[id]) {
+    ourmessage.value[id] = [];
   }
-  ourmessage.value[100].push([message, new Date().toISOString()]);
-
-  console.log(ourmessage.value);
+  ourmessage.value[id].push([message, new Date().toISOString()]);
 };
 </script>
 
@@ -64,6 +66,7 @@ const handleSendMessage = (message) => {
     <Messages
       :ourmessage="ourmessage"
       :currentid="currentid"
+      :userid="userid"
       @send-message="handleSendMessage"
     />
   </div>

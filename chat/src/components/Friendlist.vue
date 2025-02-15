@@ -26,7 +26,6 @@ const searchuser = async () => {
       searchcontrol.value = false;
       return;
     }
-
     const response = await fetch("http://localhost:3000/searchuser", {
       method: "POST",
       headers: {

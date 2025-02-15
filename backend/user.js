@@ -54,7 +54,8 @@ const users = async (uinfo, control) => {
           message: [],
         });
         const savedUser = await data.save();
-        return savedUser;
+        const userx = await User.findOne({ name: name, password: password });
+        return userx;
       }
     }
   } catch (error) {

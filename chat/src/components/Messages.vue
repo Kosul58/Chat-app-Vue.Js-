@@ -4,7 +4,7 @@ import { OhVueIcon, addIcons } from "oh-vue-icons";
 import { CoSend } from "oh-vue-icons/icons";
 // Register the icon
 addIcons(CoSend);
-const props = defineProps(["ourmessage", "currentid"]);
+const props = defineProps(["ourmessage", "currentid", "userid"]);
 const emit = defineEmits(["send-message"]);
 const newMessage = ref("");
 const messageboxRef = ref(null);
@@ -49,7 +49,7 @@ const sendMessage = () => {
           :key="val[2]"
           :class="{
             leftmessage: val[0] === String(currentid.id),
-            rightmessage: val[0] === '100',
+            rightmessage: val[0] === userid,
           }"
         >
           {{ val[1] }}
