@@ -32,6 +32,7 @@ const logout = () => {
   loginmatch.value = false;
 };
 
+//friend update garna on friend add garda or delete garda
 const updatefriend = (data) => {
   friends.length = 0;
   for (let i = 0; i < data.message.length; i++) {
