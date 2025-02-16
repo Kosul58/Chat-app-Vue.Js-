@@ -9,18 +9,22 @@ const friends = reactive([]);
 
 //to hide or display user account
 let loginmatch = ref(false);
+
 //to store retrieved messages between users
 let ourmessage = reactive({});
-//to store data of current id
+
+//to store data of current id of friends
 let currentid = ref({});
+
+//to store username
 let username = ref("");
+//to store userid
 let userid = ref("");
 
+//to load messeges
 const messageLoad = (friend) => {
   currentid.value = friend;
-  ourmessage.value = { ...friend.message }; // Ensure reactivity
-  // console.log(currentid.value);
-  // console.log(ourmessage.value);
+  ourmessage.value = { ...friend.message };
 };
 
 const logout = () => {
