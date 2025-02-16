@@ -42,6 +42,7 @@ const updatefriend = (data) => {
   userid.value = data._id;
 };
 
+//message lai database ma pathauna
 const handleSendMessage = (message) => {
   console.log(message);
   console.log(userid.value);
