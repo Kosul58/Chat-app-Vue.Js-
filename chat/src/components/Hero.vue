@@ -27,9 +27,9 @@ const messageLoad = (friend) => {
   ourmessage.value = { ...friend.message };
 };
 
-// const logout = () => {
-//   loginmatch.value = false;
-// };
+const logout = () => {
+  loginmatch.value = false;
+};
 
 const updatefriend = (data) => {
   friends.length = 0;
