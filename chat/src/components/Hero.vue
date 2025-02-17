@@ -5,7 +5,7 @@ import LoginRegister from "./LoginRegister.vue";
 import Messages from "./Messages.vue";
 import FriendList from "./Friendlist.vue";
 // Register the icon
-const friends = reactive([]);
+let friends = reactive([]);
 
 //to hide or display user account
 let loginmatch = ref(false);
@@ -23,6 +23,7 @@ let userid = ref("");
 
 //to load messeges
 const messageLoad = (friend) => {
+  console.log(friend);
   currentid.value = friend;
   ourmessage.value = { ...friend.message };
 };
@@ -34,24 +35,41 @@ const logout = () => {
 
 //friend update garna on friend add garda or delete garda
 const updatefriend = (data) => {
-  friends.length = 0;
-  for (let i = 0; i < data.message.length; i++) {
-    friends.push(data.message[i]);
-  }
+  friends = [...data.message];
   username.value = data.name;
   userid.value = data._id;
 };
 
 //message lai database ma pathauna
-const handleSendMessage = (message) => {
-  console.log(message);
-  console.log(userid.value);
-  console.log(currentid.value.id);
-  const id = userid.value;
-  if (!ourmessage.value[id]) {
-    ourmessage.value[id] = [];
+const handleSendMessage = async (message) => {
+  try {
+    console.log(message);
+    const id = userid.value;
+    const fid = currentid.value.id;
+    if (!ourmessage.value[id]) {
+      ourmessage.value[id] = [];
+    }
+    const x = new Date().toISOString();
+    console.log(x);
+    ourmessage.value[id].push([message, new Date().toISOString()]);
+
+    //aba database ma data patham
+    const response = await fetch("http://localhost:3000/sendmymessage", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ msg: message, uid: id, fid: fid }),
+    });
+    if (!response.ok) {
+      throw new Error(`Login failed: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log(data);
+    friends = [...data.message]; // Reassign array (fully reactive)
+  } catch (error) {
+    console.log("error", error);
   }
-  ourmessage.value[id].push([message, new Date().toISOString()]);
 };
 </script>
 
@@ -74,6 +92,7 @@ const handleSendMessage = (message) => {
       :ourmessage="ourmessage"
       :currentid="currentid"
       :userid="userid"
+      :friends="friends"
       @send-message="handleSendMessage"
     />
   </div>
@@ -81,10 +100,10 @@ const handleSendMessage = (message) => {
 
 <style>
 .chat-main {
-  width: 80dvw;
-  height: 80dvh;
+  width: 95dvw;
+  height: 95dvh;
   background-color: rgba(214, 198, 198, 0.8);
-  border-radius: 40px;
+  border-radius: 18px;
   box-shadow: 0px 0px 40px rgba(255, 255, 255, 0.5);
   display: flex;
   align-items: center;

@@ -103,7 +103,7 @@ const registeruser = async () => {
 </script>
 
 <template>
-  <div class="chat-main" v-if="!loginmatch">
+  <div class="chat-init" v-if="!loginmatch">
     <div class="formselect">
       <form class="loginform" @submit.prevent="loginuser">
         <div class="loginforminside" v-if="forlogin">
@@ -143,6 +143,17 @@ const registeruser = async () => {
   </div>
 </template>
 <style scoped>
+.chat-init {
+  width: 80dvw;
+  height: 80dvh;
+  background-color: rgba(214, 198, 198, 0.8);
+  border-radius: 18px;
+  box-shadow: 0px 0px 40px rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: row;
+}
 .formselect {
   width: 90%;
   height: 90%;

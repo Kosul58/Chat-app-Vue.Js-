@@ -24,6 +24,7 @@ const sortedmessage = computed(() => {
 });
 
 const sendMessage = () => {
+  console.log(props.currentid, props.userid);
   if (newMessage.value.trim() === "") {
     alert("no message");
     return;
@@ -48,7 +49,7 @@ const sendMessage = () => {
           v-for="val of sortedmessage"
           :key="val[2]"
           :class="{
-            leftmessage: val[0] === String(currentid.id),
+            leftmessage: val[0] !== userid,
             rightmessage: val[0] === userid,
           }"
         >
@@ -67,8 +68,8 @@ const sendMessage = () => {
 
 <style scoped>
 .message {
-  width: 65%;
-  height: 90%;
+  width: 66%;
+  height: 95%;
   border: 2px solid black;
   border-radius: 12px;
   display: flex;

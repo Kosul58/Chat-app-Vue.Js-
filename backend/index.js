@@ -3,6 +3,8 @@ import cors from "cors";
 import users from "./user.js";
 import searchusers from "./searchuser.js";
 import addfriend from "./addfriend.js";
+import sendmessage from "./sendmessage.js";
+
 const app = express();
 const port = 3000;
 
@@ -36,6 +38,15 @@ app.post("/addfriend", async (req, res) => {
   const { myid, friendid } = req.body;
   // console.log(myid, friendid);
   const data = await addfriend(myid, friendid);
+  res.json(data);
+});
+
+app.post("/sendmymessage", async (req, res) => {
+  const message = req.body.msg;
+  const uid = req.body.uid;
+  const fid = req.body.fid;
+  // console.log(message, uid, fid);
+  const data = await sendmessage(message, uid, fid);
   res.json(data);
 });
 

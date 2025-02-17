@@ -112,7 +112,7 @@ const addfriend = async (index) => {
 <style scoped>
 .friendlist {
   width: 30%;
-  height: 90%;
+  height: 95%;
   border: 2px solid white;
   border-radius: 12px;
   display: flex;
