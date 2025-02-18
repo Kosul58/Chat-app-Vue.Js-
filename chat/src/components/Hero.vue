@@ -1,9 +1,13 @@
 <script setup>
-import { ref, reactive, computed, nextTick } from "vue";
-
+import { ref, reactive, computed, nextTick, onMounted, onUnmounted } from "vue";
+import { io } from "socket.io-client";
 import LoginRegister from "./LoginRegister.vue";
 import Messages from "./Messages.vue";
 import FriendList from "./Friendlist.vue";
+
+// WebSocket connection
+const socket = io("http://localhost:3000");
+
 // Register the icon
 let friends = reactive([]);
 
@@ -20,12 +24,17 @@ let currentid = ref({});
 let username = ref("");
 //to store userid
 let userid = ref("");
-
+let dummyval1;
 //to load messeges
-const messageLoad = (friend) => {
-  console.log(friend);
-  currentid.value = friend;
-  ourmessage.value = { ...friend.message };
+const messageLoad = async (friend) => {
+  if (friend == "x") {
+    friend = dummyval1;
+    currentid.value = friend;
+    ourmessage.value = { ...friend.message };
+  } else {
+    currentid.value = friend;
+    ourmessage.value = { ...friend.message };
+  }
 };
 
 //to logout
@@ -34,26 +43,31 @@ const logout = () => {
 };
 
 //friend update garna on friend add garda or delete garda
-const updatefriend = (data) => {
+const updatefriend = async (data) => {
   friends = [...data.message];
   username.value = data.name;
   userid.value = data._id;
+  socket.emit("user-online", userid.value);
 };
 
 //message lai database ma pathauna
 const handleSendMessage = async (message) => {
   try {
-    console.log(message);
+    // console.log(message);
     const id = userid.value;
     const fid = currentid.value.id;
+
     if (!ourmessage.value[id]) {
       ourmessage.value[id] = [];
     }
-    const x = new Date().toISOString();
-    console.log(x);
-    ourmessage.value[id].push([message, new Date().toISOString()]);
 
-    //aba database ma data patham
+    const timestamp = new Date().toISOString();
+    // console.log(timestamp);
+
+    // Push the new message locally
+    ourmessage.value[id].push([message, timestamp]);
+
+    // Send message to the database
     const response = await fetch("http://localhost:3000/sendmymessage", {
       method: "POST",
       headers: {
@@ -61,16 +75,33 @@ const handleSendMessage = async (message) => {
       },
       body: JSON.stringify({ msg: message, uid: id, fid: fid }),
     });
+
     if (!response.ok) {
-      throw new Error(`Login failed: ${response.status}`);
+      throw new Error(`Message send failed: ${response.status}`);
     }
     const data = await response.json();
-    console.log(data);
-    friends = [...data.message]; // Reassign array (fully reactive)
+    if (data) {
+      console.log("object");
+      const sentmessage = [message, id, fid];
+      socket.emit("send-message", sentmessage);
+    } else {
+      alert("communication failed");
+    }
+    // console.log(data);
   } catch (error) {
     console.log("error", error);
   }
 };
+
+//realtime communication ko lagi
+socket.on("message", (message) => {
+  const id = currentid.value.id;
+  const timestamp = new Date().toISOString();
+  // console.log(timestamp);
+  // Push the new message locally
+  ourmessage.value[id].push([message.message, timestamp]);
+  // console.log(message.message);
+});
 </script>
 
 <template>
@@ -92,7 +123,6 @@ const handleSendMessage = async (message) => {
       :ourmessage="ourmessage"
       :currentid="currentid"
       :userid="userid"
-      :friends="friends"
       @send-message="handleSendMessage"
     />
   </div>

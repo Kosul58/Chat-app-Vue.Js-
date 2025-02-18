@@ -1,14 +1,18 @@
 <script setup>
-import { ref, computed, nextTick, defineProps, defineEmits } from "vue";
+import { ref, computed, nextTick, defineExpose } from "vue";
 import { OhVueIcon, addIcons } from "oh-vue-icons";
 import { CoSend } from "oh-vue-icons/icons";
 // Register the icon
 addIcons(CoSend);
 const props = defineProps(["ourmessage", "currentid", "userid"]);
 const emit = defineEmits(["send-message"]);
+
+//sathi lai k message send garna lako tesko value lina
 const newMessage = ref("");
+
 const messageboxRef = ref(null);
 
+//message haru lai time ra sender anusar sort garna
 const sortedmessage = computed(() => {
   if (!props.currentid.message) return [];
 
@@ -20,9 +24,11 @@ const sortedmessage = computed(() => {
       const dateA = new Date(a[2].replace(/-(\d{2}):/, "T$1:"));
       const dateB = new Date(b[2].replace(/-(\d{2}):/, "T$1:"));
       return dateA - dateB;
-    });
+    })
+    .reverse();
 });
 
+//sathi lai message pathauna
 const sendMessage = () => {
   console.log(props.currentid, props.userid);
   if (newMessage.value.trim() === "") {
@@ -32,6 +38,8 @@ const sendMessage = () => {
   // Emit event to parent with new message
   emit("send-message", newMessage.value);
   newMessage.value = "";
+  console.log("aass");
+  console.log(messageboxRef.value);
 
   nextTick(() => {
     if (messageboxRef.value) {
@@ -94,16 +102,12 @@ const sendMessage = () => {
   border-radius: 12px;
   display: flex;
   align-items: center;
-  flex-direction: column;
+  flex-direction: column-reverse;
   gap: 10px;
   overflow-y: scroll;
   scroll-behavior: smooth;
 }
 
-.messagebox > :first-child {
-  margin-top: auto !important;
-  /* use !important to prevent breakage from child margin settings */
-}
 .messagebox::-webkit-scrollbar {
   width: 0;
 }

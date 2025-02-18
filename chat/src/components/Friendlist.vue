@@ -1,23 +1,33 @@
 <script setup>
-import { ref, reactive, computed } from "vue";
+import { ref, reactive, computed, watch, nextTick } from "vue";
 // import { defineProps, defineEmits } from "vue";
 
 const props = defineProps(["friends", "username", "userid"]);
 const emit = defineEmits(["friendclick", "logout", "update-friend"]);
 
-const messageLoad = (index) => {
-  emit("friendclick", props.friends[index]); // Emit event to parent with selected friend
+const messageLoad = async (index) => {
+  emit("friendclick", props.friends[index]); // parrent lai k load garni ho pathaudai
 };
+
+//search gareko result store gardai
 let searchresult = ref("");
+//search content dekhauni ki nai control
 let searchcontrol = ref(false);
 
+//searchresult lai close garna
 const closesearchresult = () => {
   searchcontrol.value = false;
 };
+
+//logout garna
 const logout = () => {
-  emit("logout"); // Emit logout event to parent
+  emit("logout");
 };
+
+//k search garni ho  tesko value lina
 const searchinput = ref("");
+
+//database ma user search garna
 const searchuser = async () => {
   try {
     if (props.username === searchinput.value) {
@@ -49,11 +59,12 @@ const searchuser = async () => {
   }
 };
 
+//database ma bhako user lai add garna
 const addfriend = async (index) => {
   try {
     const myid = props.userid;
     const friendid = searchresult.value[index]._id;
-    console.log(myid, friendid);
+    // console.log(myid, friendid);
     const response = await fetch("http://localhost:3000/addfriend", {
       method: "POST",
       headers: {
@@ -67,9 +78,14 @@ const addfriend = async (index) => {
     } else {
       console.log(data[0]);
       emit("update-friend", data[0]);
+      setTimeout(() => {
+        messageLoad("x");
+      }, 1000);
     }
   } catch (error) {
     console.log("error", error);
+  } finally {
+    nextTick();
   }
 };
 </script>

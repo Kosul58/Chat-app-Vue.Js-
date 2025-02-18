@@ -1,14 +1,15 @@
 <script setup>
-import { ref, reactive, computed, defineProps, defineEmits } from "vue";
+import { ref, reactive, computed } from "vue";
 //for login
 let forlogin = ref(true);
 
 const props = defineProps({
-  loginmatch: Boolean, // Accepting loginmatch as a prop
+  loginmatch: Boolean, //login complete bhayo ki nai check garna
 });
 
 const emit = defineEmits(["update-login", "update-friend"]);
 
+//user details store
 let lusername = ref();
 let lpassword = ref();
 let username = ref();
@@ -16,6 +17,7 @@ let password = ref();
 let cpassword = ref();
 let email = ref();
 
+//database ma user ko details search garna
 const loginuser = async () => {
   if (forlogin.value == false) {
     forlogin.value = true;
@@ -26,7 +28,7 @@ const loginuser = async () => {
         return;
       }
 
-      console.log("Login Attempt:", lusername.value, lpassword.value);
+      // console.log("Login Attempt:", lusername.value, lpassword.value);
 
       const response = await fetch("http://localhost:3000/loginuser", {
         method: "POST",
@@ -43,8 +45,8 @@ const loginuser = async () => {
         throw new Error(`Login failed: ${response.status}`);
       }
       const data = await response.json();
-      console.log(data);
-      // Emit event if login is successful
+      // console.log(data);
+
       emit("update-login", true);
       emit("update-friend", data);
     } catch (error) {
@@ -53,6 +55,7 @@ const loginuser = async () => {
   }
 };
 
+//database ma user add garna
 const registeruser = async () => {
   if (forlogin.value == true) {
     forlogin.value = false;
@@ -155,8 +158,8 @@ const registeruser = async () => {
   flex-direction: row;
 }
 .formselect {
-  width: 90%;
-  height: 90%;
+  width: 95%;
+  height: 95%;
   display: flex;
   flex-direction: row;
   align-items: center;
