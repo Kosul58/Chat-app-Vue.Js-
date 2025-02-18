@@ -103,14 +103,17 @@ socket.on("message", (message) => {
   // console.log(message.message);
 });
 </script>
-
 <template>
   <LoginRegister
     :loginmatch="loginmatch"
     @update-login="loginmatch = $event"
     @update-friend="updatefriend"
   />
-  <div class="chat-main" v-if="loginmatch">
+
+  <div
+    v-if="loginmatch"
+    class="w-[95vw] h-[95vh] bg-gray-400/50 rounded-2xl shadow-2xl flex items-center justify-around"
+  >
     <FriendList
       :username="username"
       :userid="userid"
@@ -127,17 +130,3 @@ socket.on("message", (message) => {
     />
   </div>
 </template>
-
-<style>
-.chat-main {
-  width: 95dvw;
-  height: 95dvh;
-  background-color: rgba(214, 198, 198, 0.8);
-  border-radius: 18px;
-  box-shadow: 0px 0px 40px rgba(255, 255, 255, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  flex-direction: row;
-}
-</style>

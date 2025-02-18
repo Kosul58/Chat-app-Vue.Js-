@@ -104,162 +104,95 @@ const registeruser = async () => {
   }
 };
 </script>
-
 <template>
-  <div class="chat-init" v-if="!loginmatch">
-    <div class="formselect">
-      <form class="loginform" @submit.prevent="loginuser">
-        <div class="loginforminside" v-if="forlogin">
-          <div>
-            <p>User Name:</p>
-            <input type="text" placeholder="kosul" v-model="lusername" />
+  <div
+    v-if="!loginmatch"
+    class="w-[80dvw] h-[80dvh] bg-cyan-500/80 rounded-2xl shadow-xl flex items-center justify-around"
+  >
+    <div class="w-[95%] h-[95%] flex items-center justify-center">
+      <!-- Login Form -->
+      <form
+        class="w-1/2 h-full bg-gray-600 rounded-l-lg flex flex-col items-center justify-center gap-5 p-5"
+        @submit.prevent="loginuser"
+      >
+        <div v-if="forlogin" class="w-full flex flex-col items-center gap-4">
+          <div class="w-3/4 flex flex-col">
+            <p class="self-start">User Name:</p>
+            <input
+              type="text"
+              placeholder="kosul"
+              v-model="lusername"
+              class="w-full h-10 rounded-md px-4 bg-gray-100 focus:outline-none"
+            />
           </div>
-          <div>
-            <p>Password:</p>
-            <input type="password" placeholder="password" v-model="lpassword" />
+          <div class="w-3/4 flex flex-col">
+            <p class="self-start">Password:</p>
+            <input
+              type="password"
+              placeholder="password"
+              v-model="lpassword"
+              class="w-full h-10 rounded-md px-4 bg-gray-100 focus:outline-none"
+            />
           </div>
         </div>
-        <button type="submit">Login</button>
+        <button
+          type="submit"
+          class="w-24 h-10 rounded-md bg-black text-white transition-transform hover:scale-110 hover:bg-green-600"
+        >
+          Login
+        </button>
       </form>
-      <form class="registerform" @submit.prevent="registeruser">
-        <div class="registerforminside" v-if="!forlogin">
-          <div>
-            <p>User Name:</p>
-            <input type="text" placeholder="kosul" v-model="username" />
+
+      <!-- Register Form -->
+      <form
+        class="w-1/2 h-full bg-lime-500/80 rounded-r-lg flex flex-col items-center justify-center gap-5 p-5"
+        @submit.prevent="registeruser"
+      >
+        <div v-if="!forlogin" class="w-full flex flex-col items-center gap-4">
+          <div class="w-3/4 flex flex-col">
+            <p class="self-start">User Name:</p>
+            <input
+              type="text"
+              placeholder="kosul"
+              v-model="username"
+              class="w-full h-10 rounded-md px-4 bg-gray-100 focus:outline-none"
+            />
           </div>
-          <div>
-            <p>Email:</p>
-            <input type="email" placeholder="kosul" v-model="email" />
+          <div class="w-3/4 flex flex-col">
+            <p class="self-start">Email:</p>
+            <input
+              type="email"
+              placeholder="kosul"
+              v-model="email"
+              class="w-full h-10 rounded-md px-4 bg-gray-100 focus:outline-none"
+            />
           </div>
-          <div>
-            <p>Password:</p>
-            <input type="password" placeholder="password" v-model="password" />
+          <div class="w-3/4 flex flex-col">
+            <p class="self-start">Password:</p>
+            <input
+              type="password"
+              placeholder="password"
+              v-model="password"
+              class="w-full h-10 rounded-md px-4 bg-gray-100 focus:outline-none"
+            />
           </div>
-          <div>
-            <p>Confirm Password:</p>
-            <input type="password" placeholder="password" v-model="cpassword" />
+          <div class="w-3/4 flex flex-col">
+            <p class="self-start">Confirm Password:</p>
+            <input
+              type="password"
+              placeholder="password"
+              v-model="cpassword"
+              class="w-full h-10 rounded-md px-4 bg-gray-100 focus:outline-none"
+            />
           </div>
         </div>
-        <button type="submit">SignUp</button>
+        <button
+          type="submit"
+          class="w-24 h-10 rounded-md bg-white text-black transition-transform hover:scale-110 hover:bg-blue-700 hover:text-white"
+        >
+          Sign Up
+        </button>
       </form>
     </div>
   </div>
 </template>
-<style scoped>
-.chat-init {
-  width: 80dvw;
-  height: 80dvh;
-  background-color: rgba(214, 198, 198, 0.8);
-  border-radius: 18px;
-  box-shadow: 0px 0px 40px rgba(255, 255, 255, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  flex-direction: row;
-}
-.formselect {
-  width: 95%;
-  height: 95%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
-.loginform {
-  width: 50%;
-  height: 100%;
-  background-color: rgba(245, 237, 237, 0.8);
-  border-radius: 10px 0 0 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  flex-direction: column;
-}
-
-.loginforminside {
-  width: 100%;
-  height: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.registerforminside {
-  width: 100%;
-  height: 70%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.loginforminside div,
-.registerforminside div {
-  width: 70%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.loginforminside div p,
-.registerforminside div p {
-  align-self: flex-start;
-}
-
-.loginform input,
-.registerform input {
-  width: 100%;
-  height: 40px;
-  border-radius: 8px;
-  outline: none;
-  border: none;
-  padding-left: 20px;
-}
-
-.loginform button {
-  width: 100px;
-  height: 40px;
-  border: none;
-  border-radius: 4px;
-  background-color: black;
-  color: white;
-  cursor: pointer;
-}
-
-.loginform button:hover {
-  scale: 1.2;
-  background-color: rgb(11, 146, 54);
-}
-
-.registerform {
-  width: 50%;
-  height: 100%;
-  background-color: rgba(90, 224, 38, 0.8);
-  border-radius: 0 10px 10px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  flex-direction: column;
-}
-
-.registerform button {
-  width: 100px;
-  height: 40px;
-  border: none;
-  border-radius: 4px;
-  background-color: rgb(247, 242, 242);
-  color: rgb(11, 11, 11);
-  cursor: pointer;
-}
-
-.registerform button:hover {
-  scale: 1.2;
-  background-color: rgba(19, 38, 186, 0.8);
-  color: white;
-}
-</style>

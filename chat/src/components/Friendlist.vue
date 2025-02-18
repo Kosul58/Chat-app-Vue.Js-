@@ -148,6 +148,7 @@ const addfriend = async (index) => {
   border: none;
   cursor: pointer;
   border-radius: 4px;
+  background-color: white;
 }
 
 .friendlist button:hover {
@@ -204,6 +205,7 @@ const addfriend = async (index) => {
   font-size: 22px;
   text-align: left;
   padding-left: 10px;
+  background-color: white;
 }
 
 .searchbar input:focus {
