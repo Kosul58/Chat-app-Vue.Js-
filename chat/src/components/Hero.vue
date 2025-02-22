@@ -53,7 +53,7 @@ const updatefriend = async (data) => {
 //message lai database ma pathauna
 const handleSendMessage = async (message) => {
   try {
-    // console.log(message);
+    console.log(message);
     const id = userid.value;
     const fid = currentid.value.id;
 
