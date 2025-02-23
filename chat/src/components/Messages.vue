@@ -50,136 +50,45 @@ const sendMessage = () => {
 </script>
 
 <template>
-  <div class="message">
-    <div class="messageblock" v-if="Object.keys(ourmessage).length > 0">
-      <div class="messagebox" ref="messageboxRef">
+  <div
+    class="w-2/3 h-[95%] border-2 border-black rounded-xl flex items-center justify-center"
+  >
+    <div
+      class="w-full h-full flex flex-col items-center justify-center gap-2"
+      v-if="Object.keys(ourmessage).length > 0"
+    >
+      <div
+        class="w-[97%] h-[85%] bg-gray-300/80 rounded-xl flex flex-col-reverse gap-2 overflow-y-scroll scrollbar-hide"
+        ref="messageboxRef"
+      >
         <div
           v-for="val of sortedmessage"
           :key="val[2]"
-          :class="{
-            leftmessage: val[0] !== userid,
-            rightmessage: val[0] === userid,
-          }"
+          :class="
+            val[0] === userid
+              ? 'self-end bg-green-300 p-2 rounded-md max-w-[60%] mr-2'
+              : 'self-start bg-blue-300 p-2 rounded-md max-w-[60%] ml-2'
+          "
         >
           {{ val[1] }}
         </div>
       </div>
-      <div class="sendmessage">
-        <div class="writemessage">
-          <input type="text" v-model="newMessage" />
+      <div
+        class="w-[97%] h-[10%] rounded-md flex items-center justify-evenly bg-gray-100/50"
+      >
+        <div class="w-11/12 h-4/5 rounded-md flex items-center">
+          <input
+            type="text"
+            v-model="newMessage"
+            class="w-full h-full border-none outline-none rounded-md text-xl px-2"
+          />
         </div>
-        <OhVueIcon name="co-send" class="send-icon" @click="sendMessage" />
+        <OhVueIcon
+          name="co-send"
+          class="w-12 h-12 text-white cursor-pointer hover:scale-125 hover:text-green-600"
+          @click="sendMessage"
+        />
       </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-.message {
-  width: 66%;
-  height: 95%;
-  border: 2px solid black;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.messageblock {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.messagebox {
-  width: 97%;
-  height: 85%;
-  background-color: rgba(214, 198, 198, 0.8);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  flex-direction: column-reverse;
-  gap: 10px;
-  overflow-y: scroll;
-  scroll-behavior: smooth;
-}
-
-.messagebox::-webkit-scrollbar {
-  width: 0;
-}
-
-.leftmessage,
-.rightmessage {
-  width: fit-content;
-  padding: 10px 15px;
-  max-width: 80%;
-  min-height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
-}
-
-.leftmessage {
-  margin-left: 10px;
-  align-self: flex-start;
-  background-color: lightblue;
-  padding: 8px;
-  border-radius: 10px;
-  max-width: 60%;
-}
-
-.rightmessage {
-  margin-right: 10px;
-  align-self: flex-end;
-  background-color: lightgreen;
-  padding: 8px;
-  border-radius: 10px;
-  max-width: 60%;
-}
-
-.sendmessage {
-  width: 97%;
-  height: 10%;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  background-color: rgba(244, 239, 239, 0.5);
-}
-
-.send-icon {
-  width: 50px;
-  height: 50px;
-  color: white;
-  cursor: pointer;
-}
-
-.send-icon:hover {
-  scale: 1.2;
-  color: green;
-}
-
-.writemessage {
-  width: 90%;
-  height: 80%;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.writemessage input {
-  width: 100%;
-  height: 100%;
-  border: none;
-  outline: none;
-  border-radius: 8px;
-  font-size: 25px;
-  padding-left: 10px;
-}
-</style>

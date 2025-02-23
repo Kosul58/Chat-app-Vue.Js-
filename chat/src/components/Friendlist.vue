@@ -91,200 +91,70 @@ const addfriend = async (index) => {
 </script>
 
 <template>
-  <div class="friendlist">
-    <h1>{{ props.username }}</h1>
-    <div class="friend-section">
-      <form class="searchbar" @submit.prevent="searchuser">
-        <input type="text" v-model="searchinput" />
-        <button type="submit">Search</button>
+  <div
+    class="w-1/3 h-[95%] border-2 border-white rounded-xl flex flex-col items-center justify-evenly overflow-y-auto scrollbar-hide"
+  >
+    <h1 class="text-whitesmoke text-2xl">{{ props.username }}</h1>
+    <div
+      class="w-full h-4/5 flex flex-col items-center justify-start overflow-y-auto scrollbar-hide"
+    >
+      <form
+        class="mt-2 w-11/12 h-12 bg-gray-300/80 rounded-xl flex items-center justify-center gap-2"
+        @submit.prevent="searchuser"
+      >
+        <input
+          type="text"
+          v-model="searchinput"
+          class="w-4/6 h-4/5 rounded-lg border-none outline-none text-lg px-2 bg-white"
+        />
+        <button
+          type="submit"
+          class="w-1/5 h-4/5 text-lg flex items-center justify-center rounded-md bg-white hover:bg-green-300 hover:scale-110"
+        >
+          Search
+        </button>
       </form>
-      <div class="searchresults" v-if="searchcontrol">
-        <div class="closeiconcontainer">
-          <div class="closeicon" @click="closesearchresult()"></div>
+
+      <div
+        v-if="searchcontrol"
+        class="bg-gray-200/80 w-11/12 min-h-fit mt-2 rounded-md flex flex-col items-center"
+      >
+        <div class="w-full h-5 flex justify-end">
+          <div
+            class="w-4 h-4 bg-red-500 rounded-full cursor-pointer hover:scale-110"
+            @click="closesearchresult()"
+          ></div>
         </div>
         <div
           v-for="(result, index) of searchresult"
           :key="result._id"
-          class="searchresult"
+          class="w-11/12 h-12 bg-white/80 my-1 flex items-center justify-center gap-5"
         >
-          <h1>{{ result.name }}</h1>
-          <button @click="addfriend(index)">Add</button>
+          <h1 class="text-black text-lg">{{ result.name }}</h1>
+          <button
+            @click="addfriend(index)"
+            class="hover:bg-green-300 cursor-pointer px-3 py-1 rounded-md"
+          >
+            Add
+          </button>
         </div>
       </div>
 
       <div
         v-for="(friend, index) in friends"
         :key="friend.id"
-        class="friend"
+        class="my-2 w-11/12 min-h-16 rounded-lg text-white bg-gray-300/80 flex items-center justify-center text-2xl cursor-pointer"
         @click="messageLoad(index)"
       >
         {{ friend.name }}
       </div>
     </div>
-    <button @click="logout()">Log Out</button>
+
+    <button
+      @click="logout()"
+      class="w-24 h-10 border-none cursor-pointer rounded-md bg-white hover:bg-red-500 hover:scale-110"
+    >
+      Log Out
+    </button>
   </div>
 </template>
-
-<style scoped>
-.friendlist {
-  width: 30%;
-  height: 95%;
-  border: 2px solid white;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  flex-direction: column;
-  overflow-y: auto;
-}
-
-.friendlist::-webkit-scrollbar {
-  width: 0;
-}
-
-.friendlist button {
-  width: 100px;
-  height: 40px;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
-  background-color: white;
-}
-
-.friendlist button:hover {
-  scale: 1.2;
-  background-color: red;
-}
-
-.friend-section {
-  width: 100%;
-  height: 80%;
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  flex-direction: column;
-  overflow-y: scroll;
-}
-
-.friend-section::-webkit-scrollbar {
-  width: 0;
-}
-
-.friend {
-  margin: 10px;
-  width: 90%;
-  min-height: 70px;
-  border-radius: 8px;
-  color: white;
-  background-color: rgba(214, 198, 198, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30px;
-  cursor: pointer;
-}
-.searchbar {
-  margin-top: 10px;
-  width: 90%;
-  min-height: 50px;
-  max-height: 50px;
-  background-color: rgba(214, 198, 198, 0.8);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  flex-direction: row;
-}
-.searchbar input {
-  width: 70%;
-  height: 80%;
-  border-radius: 10px;
-  border: none;
-  outline: none;
-  font-size: 22px;
-  text-align: left;
-  padding-left: 10px;
-  background-color: white;
-}
-
-.searchbar input:focus {
-  border: none;
-  outline: none;
-}
-
-.searchbar button {
-  border: none;
-  width: 20%;
-  height: 80%;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-}
-.searchbar button:hover {
-  background-color: greenyellow;
-  scale: 1.1;
-}
-
-.friendlist h1 {
-  color: whitesmoke;
-  font-size: 25px;
-}
-
-.searchresults {
-  background-color: rgba(247, 241, 241, 0.8);
-  width: 90%;
-  min-height: fit-content;
-  margin-top: 10px;
-  border-radius: 8px;
-  /* height: fit-content; */
-  z-index: 5;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
-
-.closeiconcontainer {
-  width: 100%;
-  height: 20px;
-  margin-top: 1px;
-  display: flex;
-  justify-content: end;
-}
-
-.closeicon {
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background-color: rgb(252, 5, 5);
-  cursor: pointer;
-}
-.closeicon:hover {
-  scale: 1.2;
-}
-.searchresult {
-  width: 90%;
-  height: 50px;
-  background-color: rgba(255, 254, 254, 0.8);
-  z-index: 8;
-  margin: 5px 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  gap: 20px;
-}
-.searchresult h1 {
-  color: black;
-  size: 5px;
-  width: fit-content;
-}
-
-.searchresult button:hover {
-  background-color: greenyellow;
-  cursor: pointer;
-  scale: 1;
-}
-</style>
