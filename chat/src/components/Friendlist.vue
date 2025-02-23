@@ -44,7 +44,7 @@ const searchuser = async () => {
       body: JSON.stringify({ name: searchinput.value }),
     });
     const data = await response.json();
-    // console.log(data.length);
+    console.log(data.length);
     if (data.length >= 1) {
       searchresult.value = data;
       // console.log(searchresult.value[0].name);
