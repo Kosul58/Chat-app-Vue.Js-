@@ -24,7 +24,15 @@ const messageLoad = async (index) => {
 };
 
 //hamburger controls start here
-let y = true;
+let y = ref(true);
+
+const showburger = () => {
+  if (y.value === true) {
+    y.value = false;
+  } else {
+    y.value = true;
+  }
+};
 const x = ref(window.innerWidth < 1100);
 const checkWidth = () => {
   x.value = window.innerWidth < 1100;
@@ -196,6 +204,78 @@ const addfriend = async (index) => {
       name="gi-hamburger-menu"
       class="w-12 h-12 text-amber-50 cursor-pointer hover:scale-120"
       v-if="y"
+      @click="showburger"
     />
+    <div
+      v-if="!y"
+      class="w-80 h-90 bg-amber-200 rounded-2xl flex items-center justify-center flex-col"
+    >
+      <div
+        class="absolute top-4 left-70 w-5 h-5 rounded-2xl bg-amber-950 cursor-pointer hover:bg-red-800 hover:scale-110"
+        @click="showburger"
+      ></div>
+      <h1 class="text-whitesmoke text-2xl">{{ props.username }}</h1>
+      <div
+        class="w-full h-4/5 flex flex-col items-center justify-start overflow-y-auto scrollbar-hide"
+      >
+        <form
+          class="mt-2 w-11/12 h-12 bg-gray-300/80 rounded-xl flex items-center justify-center gap-2"
+          @submit.prevent="searchuser"
+        >
+          <input
+            type="text"
+            v-model="searchinput"
+            class="w-4/6 h-4/5 rounded-lg border-none outline-none text-lg px-2 bg-white"
+          />
+          <button
+            type="submit"
+            class="w-1/5 h-4/5 text-lg flex items-center justify-center rounded-md bg-white hover:bg-green-300 hover:scale-110"
+          >
+            Search
+          </button>
+        </form>
+
+        <div
+          v-if="searchcontrol"
+          class="bg-gray-200/80 w-11/12 min-h-fit mt-2 rounded-md flex flex-col items-center"
+        >
+          <div class="w-full h-5 flex justify-end">
+            <div
+              class="w-4 h-4 bg-red-500 rounded-full cursor-pointer hover:scale-110"
+              @click="closesearchresult()"
+            ></div>
+          </div>
+          <div
+            v-for="(result, index) of searchresult"
+            :key="result._id"
+            class="w-11/12 h-12 bg-white/80 my-1 flex items-center justify-center gap-5 rounded-md"
+          >
+            <h1 class="text-black text-lg">{{ result.name }}</h1>
+            <button
+              @click="addfriend(index)"
+              class="hover:bg-green-300 cursor-pointer px-3 py-1 rounded-md bg-amber-200"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+
+        <div
+          v-for="(friend, index) in friends"
+          :key="friend.id"
+          class="my-2 w-3/4 min-h-10 rounded-lg text-white bg-gray-300/80 flex items-center justify-center text-2xl cursor-pointer"
+          @click="messageLoad(index)"
+        >
+          {{ friend.name }}
+        </div>
+      </div>
+
+      <button
+        @click="logout()"
+        class="w-24 h-10 border-none cursor-pointer rounded-md bg-white hover:bg-red-500 hover:scale-110"
+      >
+        Log Out
+      </button>
+    </div>
   </div>
 </template>
