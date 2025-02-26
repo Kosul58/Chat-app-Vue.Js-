@@ -66,8 +66,8 @@ const sendMessage = () => {
           :key="val[2]"
           :class="
             val[0] === userid
-              ? 'self-end bg-green-300 p-2 rounded-md max-w-[60%] mr-2 mb-1.5 '
-              : 'self-start bg-blue-300 p-2 rounded-md max-w-[60%] ml-2 mb-1.5'
+              ? 'self-end bg-green-300 p-3 rounded-md max-w-[60%] mr-2 m-1.5 '
+              : 'self-start bg-blue-300 p-3 rounded-md max-w-[60%] ml-2 m-1.5'
           "
         >
           {{ val[1] }}
