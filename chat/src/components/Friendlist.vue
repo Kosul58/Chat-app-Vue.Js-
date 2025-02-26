@@ -9,7 +9,7 @@ const messageLoad = async (index) => {
   emit("friendclick", props.friends[index]); // parrent lai k load garni ho pathaudai
 };
 
-//search gareko result store gardai
+//search gareko result store gardai euta value ma
 let searchresult = ref("");
 //search content dekhauni ki nai control
 let searchcontrol = ref(false);
