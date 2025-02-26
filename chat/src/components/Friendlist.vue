@@ -183,6 +183,6 @@ const addfriend = async (index) => {
   </div>
   <div
     v-if="x"
-    class="w-[50%] h-[80%] absolute left-10 top-[20] bg-amber-200 cursor-pointer"
+    class="w-[50%] h-[80%] absolute left-10 top-[20] border-2"
   ></div>
 </template>
