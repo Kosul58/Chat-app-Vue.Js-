@@ -1,5 +1,13 @@
 <script setup>
-import { ref, reactive, computed, watch, nextTick } from "vue";
+import {
+  ref,
+  reactive,
+  computed,
+  watch,
+  nextTick,
+  onMounted,
+  onUnmounted,
+} from "vue";
 // import { defineProps, defineEmits } from "vue";
 
 const props = defineProps(["friends", "username", "userid"]);
@@ -8,6 +16,21 @@ const emit = defineEmits(["friendclick", "logout", "update-friend"]);
 const messageLoad = async (index) => {
   emit("friendclick", props.friends[index]); // parrent lai k load garni ho pathaudai
 };
+
+const x = ref(window.innerWidth < 1100);
+const checkWidth = () => {
+  x.value = window.innerWidth < 1100;
+};
+
+// Add event listener to update `x` when window resizes
+onMounted(() => {
+  window.addEventListener("resize", checkWidth);
+});
+
+// Remove event listener when component unmounts
+onUnmounted(() => {
+  window.removeEventListener("resize", checkWidth);
+});
 
 //search gareko result store gardai euta value ma
 let searchresult = ref("");
@@ -93,6 +116,7 @@ const addfriend = async (index) => {
 <template>
   <div
     class="w-1/3 h-[95%] border-2 border-white rounded-xl flex flex-col items-center justify-evenly overflow-y-auto scrollbar-hide"
+    v-if="!x"
   >
     <h1 class="text-whitesmoke text-2xl">{{ props.username }}</h1>
     <div
@@ -157,4 +181,8 @@ const addfriend = async (index) => {
       Log Out
     </button>
   </div>
+  <div
+    v-if="x"
+    class="w-[50%] h-[80%] absolute left-10 top-[20] bg-amber-200 cursor-pointer"
+  ></div>
 </template>
