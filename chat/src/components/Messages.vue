@@ -2,7 +2,7 @@
 import { ref, computed, nextTick, defineExpose } from "vue";
 import { OhVueIcon, addIcons } from "oh-vue-icons";
 import { CoSend } from "oh-vue-icons/icons";
-import { GiHamburgerMenu } from "oh-vue-icons/icons";
+
 // Register the icon
 addIcons(CoSend);
 const props = defineProps(["ourmessage", "currentid", "userid"]);

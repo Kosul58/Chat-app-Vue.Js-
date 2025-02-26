@@ -8,6 +8,12 @@ import {
   onMounted,
   onUnmounted,
 } from "vue";
+
+import { OhVueIcon, addIcons } from "oh-vue-icons";
+import { GiHamburgerMenu } from "oh-vue-icons/icons";
+
+// Register the icon
+addIcons(GiHamburgerMenu);
 // import { defineProps, defineEmits } from "vue";
 
 const props = defineProps(["friends", "username", "userid"]);
@@ -17,6 +23,8 @@ const messageLoad = async (index) => {
   emit("friendclick", props.friends[index]); // parrent lai k load garni ho pathaudai
 };
 
+//hamburger controls start here
+let y = true;
 const x = ref(window.innerWidth < 1100);
 const checkWidth = () => {
   x.value = window.innerWidth < 1100;
@@ -31,6 +39,8 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("resize", checkWidth);
 });
+
+//hamburger control ends here
 
 //search gareko result store gardai euta value ma
 let searchresult = ref("");
@@ -181,8 +191,11 @@ const addfriend = async (index) => {
       Log Out
     </button>
   </div>
-  <div
-    v-if="x"
-    class="w-[50%] h-[80%] absolute left-10 top-[20] border-2"
-  ></div>
+  <div v-if="x" class="w-[50%] h-[80%] absolute left-10 top-[20]">
+    <OhVueIcon
+      name="gi-hamburger-menu"
+      class="w-12 h-12 text-amber-50 cursor-pointer hover:scale-120"
+      v-if="y"
+    />
+  </div>
 </template>
