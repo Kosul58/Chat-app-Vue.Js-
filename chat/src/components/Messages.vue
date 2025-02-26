@@ -58,7 +58,7 @@ const sendMessage = () => {
       v-if="Object.keys(ourmessage).length > 0"
     >
       <div
-        class="w-[97%] h-[85%] bg-gray-300/80 rounded-xl flex flex-col-reverse gap-2 overflow-y-scroll scrollbar-hide"
+        class="w-[97%] h-[85%] bg-gray-800/80 rounded-xl flex flex-col-reverse gap-2 overflow-y-scroll scrollbar-hide"
         ref="messageboxRef"
       >
         <div
@@ -66,8 +66,8 @@ const sendMessage = () => {
           :key="val[2]"
           :class="
             val[0] === userid
-              ? 'self-end bg-green-300 p-2 rounded-md max-w-[60%] mr-2'
-              : 'self-start bg-blue-300 p-2 rounded-md max-w-[60%] ml-2'
+              ? 'self-end bg-green-300 p-2 rounded-md max-w-[60%] mr-2 mb-1.5 '
+              : 'self-start bg-blue-300 p-2 rounded-md max-w-[60%] ml-2 mb-1.5'
           "
         >
           {{ val[1] }}

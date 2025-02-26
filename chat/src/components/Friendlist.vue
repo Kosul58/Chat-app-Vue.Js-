@@ -128,12 +128,12 @@ const addfriend = async (index) => {
         <div
           v-for="(result, index) of searchresult"
           :key="result._id"
-          class="w-11/12 h-12 bg-white/80 my-1 flex items-center justify-center gap-5"
+          class="w-11/12 h-12 bg-white/80 my-1 flex items-center justify-center gap-5 rounded-md"
         >
           <h1 class="text-black text-lg">{{ result.name }}</h1>
           <button
             @click="addfriend(index)"
-            class="hover:bg-green-300 cursor-pointer px-3 py-1 rounded-md"
+            class="hover:bg-green-300 cursor-pointer px-3 py-1 rounded-md bg-amber-200"
           >
             Add
           </button>
