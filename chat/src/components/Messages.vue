@@ -59,7 +59,7 @@ const sendMessage = () => {
       v-if="Object.keys(ourmessage).length > 0"
     >
       <div
-        class="w-[97%] h-[85%] bg-gray-800/80 rounded-xl flex flex-col-reverse gap-2 overflow-y-scroll scrollbar-hide"
+        class="w-[97%] h-[85%] bg-amber-100/30 rounded-xl flex flex-col-reverse gap-2 overflow-y-scroll scrollbar-hide"
         ref="messageboxRef"
       >
         <div
