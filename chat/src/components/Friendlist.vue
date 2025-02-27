@@ -133,7 +133,7 @@ const addfriend = async (index) => {
 
 <template>
   <div
-    class="w-1/3 h-[95%] border-2 border-white rounded-xl flex flex-col items-center justify-evenly overflow-y-auto scrollbar-hide"
+    class="w-2/7 h-[95%] rounded-xl flex flex-col items-center justify-evenly overflow-y-auto scrollbar-hide bg-blue-300/60 shadow-[0px_0px_10px_rgba(0,0,0,0.6)]"
     v-if="!x"
   >
     <h1 class="text-whitesmoke text-2xl">{{ props.username }}</h1>
@@ -199,7 +199,10 @@ const addfriend = async (index) => {
       Log Out
     </button>
   </div>
-  <div v-if="x" class="w-[50%] h-[80%] absolute left-10 top-[20]">
+  <div
+    v-if="x"
+    class="w-[50%] max-[1100px]:w-[85%] h-[80%] absolute left-10 top-20 border-2"
+  >
     <OhVueIcon
       name="gi-hamburger-menu"
       class="w-12 h-12 text-amber-50 cursor-pointer hover:scale-120"
@@ -208,7 +211,7 @@ const addfriend = async (index) => {
     />
     <div
       v-if="!y"
-      class="w-80 h-90 bg-amber-200 rounded-2xl flex items-center justify-center flex-col"
+      class="w-80 h-95 bg-amber-200 rounded-2xl flex items-center justify-center flex-col"
     >
       <div
         class="absolute top-4 left-70 w-5 h-5 rounded-2xl bg-amber-950 cursor-pointer hover:bg-red-800 hover:scale-110"
