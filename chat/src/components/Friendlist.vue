@@ -201,7 +201,7 @@ const addfriend = async (index) => {
   </div>
   <div
     v-if="x"
-    class="w-[50%] max-[1100px]:w-[85%] h-[80%] absolute left-10 top-20 border-2"
+    class="w-[50%] h-[80%] absolute left-6 top-10 border-2 border-amber-50"
   >
     <OhVueIcon
       name="gi-hamburger-menu"
