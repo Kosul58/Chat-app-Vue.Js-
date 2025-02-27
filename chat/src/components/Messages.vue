@@ -52,7 +52,7 @@ const sendMessage = () => {
 
 <template>
   <div
-    class="w-2/3 max-[1100px]:w-[90%] h-[95%] border-2 border-black rounded-xl flex items-center justify-center"
+    class="w-2/3 max-[1100px]:w-[85%] h-[95%] bg-red-400/85 rounded-xl flex items-center justify-center shadow-[0_0_10px_rgba(10,10,10,0.7)]"
   >
     <div
       class="w-full h-full flex flex-col items-center justify-center gap-2"

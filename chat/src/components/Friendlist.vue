@@ -33,9 +33,9 @@ const showburger = () => {
     y.value = true;
   }
 };
-const x = ref(window.innerWidth > 1100);
+const x = ref(window.innerWidth < 1100);
 const checkWidth = () => {
-  x.value = window.innerWidth > 1100;
+  x.value = window.innerWidth < 1100;
 };
 
 // Add event listener to update `x` when window resizes
@@ -201,17 +201,17 @@ const addfriend = async (index) => {
   </div>
   <div
     v-if="x"
-    class="w-[50%] h-[80%] absolute left-6 top-10 flex justify-center items-center"
+    class="w-[70%] h-[80%] absolute left-[3%] top-[3%] flex items-center justify-center"
   >
     <OhVueIcon
       name="gi-hamburger-menu"
-      class="w-12 h-12 text-amber-50 cursor-pointer hover:scale-120"
+      class="w-12 h-12 text-amber-50 cursor-pointer hover:scale-120 absolute top-1.5 left-1.5"
       v-if="y"
       @click="showburger"
     />
     <div
       v-if="!y"
-      class="w-[90%] h-[95%] bg-amber-200 rounded-2xl flex items-center justify-center flex-col"
+      class="w-[90%] h-[95%] bg-blue-500 rounded-2xl flex items-center justify-center flex-col"
     >
       <div
         class="absolute top-[4%] right-[8%] w-5 h-5 rounded-2xl bg-amber-950 cursor-pointer hover:bg-red-800 hover:scale-110"
