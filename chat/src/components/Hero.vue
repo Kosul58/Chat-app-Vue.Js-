@@ -27,14 +27,8 @@ let userid = ref("");
 let dummyval1;
 //to load messeges
 const messageLoad = async (friend) => {
-  if (friend == "x") {
-    friend = dummyval1;
-    currentid.value = friend;
-    ourmessage.value = { ...friend.message };
-  } else {
-    currentid.value = friend;
-    ourmessage.value = { ...friend.message };
-  }
+  currentid.value = friend;
+  ourmessage.value = { ...friend.message };
 };
 
 //to logout
@@ -42,11 +36,13 @@ const logout = () => {
   loginmatch.value = false;
 };
 
+let userimg = ref("");
 //friend update garna on friend add garda or delete garda
 const updatefriend = async (data) => {
-  friends = [...data.message];
+  friends = data.message;
   username.value = data.name;
   userid.value = data._id;
+  userimg.value = data.image;
   socket.emit("user-online", userid.value);
 };
 
@@ -112,12 +108,13 @@ socket.on("message", (message) => {
 
   <div
     v-if="loginmatch"
-    class="w-[95vw] h-[95vh] bg-gray-400/50 rounded-2xl shadow-2xl flex items-center justify-around"
+    class="w-[95vw] h-[95vh] bg-white/80 rounded-2xl shadow-2xl flex items-center justify-around"
   >
     <FriendList
       :username="username"
       :userid="userid"
       :friends="friends"
+      :userimg="userimg"
       @friendclick="messageLoad"
       @logout="logout"
       @update-friend="updatefriend"

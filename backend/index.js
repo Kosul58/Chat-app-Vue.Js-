@@ -4,8 +4,13 @@ import users from "./user.js";
 import searchusers from "./searchuser.js";
 import addfriend from "./addfriend.js";
 import sendmessage from "./sendmessage.js";
+import userlist from "./userlist.js";
 import http from "http";
 import { Server } from "socket.io";
+import multer from "multer";
+import { v2 as cloudinary } from "cloudinary";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import dotenv from "dotenv";
 
 const app = express();
 const server = http.createServer(app);
@@ -13,6 +18,24 @@ const port = 3000;
 
 app.use(express.json());
 app.use(cors());
+
+// Cloudinary Configuration
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// Multer Storage for Cloudinary
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "user_profiles", // Folder name in Cloudinary
+    allowed_formats: ["jpg", "jpeg", "png"],
+  },
+});
+
+const upload = multer({ storage });
 
 const onlineUsers = new Map(); // Store online users
 
@@ -24,9 +47,6 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  // console.log("User connected", socket.id);
-  // console.log(onlineUsers);
-  // Handle user online event
   socket.on("user-online", (userid) => {
     onlineUsers.set(userid, socket.id);
     // console.log(`User ${userid} is online with socket id ${socket.id}`);
@@ -56,19 +76,33 @@ io.on("connection", (socket) => {
   });
 });
 
-app.post("/registeruser", async (req, res) => {
-  const userinfo = req.body;
-  const control = "register";
-  // console.log(userinfo);
-  const data = await users(userinfo, control);
-  // console.log(data);
-  res.json(data);
+app.post("/registeruser", upload.single("image"), async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+    const imageUrl = req.file ? req.file.path : ""; // Cloudinary image URL
+
+    const userinfo = { username, email, password, image: imageUrl };
+    const control = "register";
+    const data = await users(userinfo, control);
+
+    res.json(data);
+  } catch (error) {
+    console.error("Error registering user:", error);
+    res.status(500).json({ error: "Registration failed" });
+  }
 });
 
 app.post("/loginuser", async (req, res) => {
   const userinfo = req.body;
   const control = "login";
   const data = await users(userinfo, control);
+  // console.log(data);
+  res.json(data);
+});
+
+app.get("/friendlist", async (req, res) => {
+  const { query } = req.query;
+  const data = await userlist(query);
   // console.log(data);
   res.json(data);
 });

@@ -54,7 +54,10 @@ const loginuser = async () => {
     }
   }
 };
-
+let imageFile = ref(null);
+const handleFileUpload = (event) => {
+  imageFile.value = event.target.files[0];
+};
 //database ma user add garna
 const registeruser = async () => {
   if (forlogin.value == true) {
@@ -75,15 +78,15 @@ const registeruser = async () => {
         alert("Passwords do not match");
         return;
       }
+      const formData = new FormData();
+      formData.append("username", username.value);
+      formData.append("email", email.value);
+      formData.append("password", password.value);
+      formData.append("image", imageFile.value); // Append the file
 
       const response = await fetch("http://localhost:3000/registeruser", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: username.value,
-          password: password.value,
-          email: email.value,
-        }),
+        body: formData,
       });
 
       if (!response.ok) {
@@ -183,6 +186,15 @@ const registeruser = async () => {
               placeholder="password"
               v-model="cpassword"
               class="w-full h-10 rounded-md px-4 bg-gray-100 focus:outline-none"
+            />
+          </div>
+          <div class="w-3/4 flex flex-col">
+            <p class="self-start">Profile Image:</p>
+            <input
+              type="file"
+              @change="handleFileUpload"
+              accept="image/*"
+              class="w-50 h-8 border-2 bg-blue-300 rounded-lg cursor-pointer hover:scale-110"
             />
           </div>
         </div>

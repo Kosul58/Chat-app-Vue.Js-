@@ -32,30 +32,25 @@ const closeConn = async () => {
 const users = async (uinfo, control) => {
   await connectDB();
   try {
-    let name = uinfo.username;
-    let password = uinfo.password;
-    let email = uinfo.email;
-    const user = await User.findOne({ name: name, password: password });
+    let { username, password, email, image } = uinfo;
+
+    const user = await User.findOne({ name: username, password: password });
     if (control === "login") {
-      if (user) {
-        return user;
-      } else {
-        return "no users";
-      }
+      return user ? user : "no users";
     } else if (control === "register") {
       if (user) {
-        console.log("user already exists");
+        console.log("User already exists");
         return 0;
       } else {
-        const data = new User({
-          email: email,
-          name: name,
-          password: password,
+        const newUser = new User({
+          email,
+          name: username,
+          password,
+          image,
           message: [],
         });
-        const savedUser = await data.save();
-        const userx = await User.findOne({ name: name, password: password });
-        return userx;
+        const savedUser = await newUser.save();
+        return savedUser;
       }
     }
   } catch (error) {

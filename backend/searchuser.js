@@ -34,7 +34,7 @@ const searchusers = async (uinfo) => {
   try {
     const name = uinfo;
     const users = await User.find({ name: name });
-    console.log(users);
+    console.log("user found");
     if (users.length > 0) {
       return users;
     } else {

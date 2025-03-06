@@ -36,7 +36,7 @@ const addfriend = async (id1, id2) => {
     const fid = id2;
     const user = await User.find({ _id: uid });
     const friend = await User.find({ _id: fid });
-    console.log(user[0]);
+    // console.log(user[0]);
     const userHasFriend = user[0].message.some((friend) => friend.id === id2);
     if (userHasFriend) {
       console.log("User already has this friend.");
@@ -45,6 +45,7 @@ const addfriend = async (id1, id2) => {
       const add1 = {
         id: uid,
         name: user[0].name,
+        image: user[0].image,
         message: {
           [uid]: [],
           [fid]: [],
@@ -54,6 +55,7 @@ const addfriend = async (id1, id2) => {
       const add2 = {
         id: fid,
         name: friend[0].name,
+        image: friend[0].image,
         message: {
           [uid]: [],
           [fid]: [],
