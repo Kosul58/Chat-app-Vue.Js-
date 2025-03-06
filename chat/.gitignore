@@ -30,6 +30,6 @@ coverage
 *.tsbuildinfo
 
 
-.env
+backend/.env
 
 kos.c
