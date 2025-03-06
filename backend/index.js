@@ -100,7 +100,7 @@ app.post("/loginuser", async (req, res) => {
   res.json(data);
 });
 
-app.get("/friendlist", async (req, res) => {
+app.get("/reloaddata", async (req, res) => {
   const { query } = req.query;
   const data = await userlist(query);
   // console.log(data);

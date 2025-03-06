@@ -47,6 +47,8 @@ const loginuser = async () => {
       const data = await response.json();
       // console.log(data);
 
+      localStorage.setItem("user", JSON.stringify(data));
+
       emit("update-login", true);
       emit("update-friend", data);
     } catch (error) {
@@ -93,6 +95,9 @@ const registeruser = async () => {
         throw new Error("Register Failed");
       }
       const data = await response.json();
+
+      localStorage.setItem("user", JSON.stringify(data));
+
       if (data == 0) {
         alert("User already exists");
       } else {
@@ -100,6 +105,7 @@ const registeruser = async () => {
         emit("update-login", true);
         emit("update-friend", data);
       }
+
       // console.log(data);
     } catch (error) {
       console.log("error", error);
@@ -110,12 +116,14 @@ const registeruser = async () => {
 <template>
   <div
     v-if="!loginmatch"
-    class="w-[80dvw] h-[80dvh] bg-cyan-500/80 rounded-2xl shadow-xl flex items-center justify-around"
+    class="w-[80dvw] h-[80dvh] bg-indigo-300 rounded-2xl shadow-xl flex items-center justify-around max-md:flex-wrap max-[800px]:h-[900px] max-[800px]:w-[60%] m-4 max-md:w-[400px]"
   >
-    <div class="w-[95%] h-[95%] flex items-center justify-center">
+    <div
+      class="w-[95%] h-[95%] flex items-center justify-center max-[800px]:flex-wrap"
+    >
       <!-- Login Form -->
       <form
-        class="w-1/2 h-full bg-gray-600 rounded-l-lg flex flex-col items-center justify-center gap-5 p-5"
+        class="w-1/2 h-full bg-orange-300 rounded-l-lg flex flex-col items-center justify-center gap-5 p-5 max-[800px]:w-[100%] max-[800px]:h-[40%] max-[]"
         @submit.prevent="loginuser"
       >
         <div v-if="forlogin" class="w-full flex flex-col items-center gap-4">
@@ -148,7 +156,7 @@ const registeruser = async () => {
 
       <!-- Register Form -->
       <form
-        class="w-1/2 h-full bg-lime-500/80 rounded-r-lg flex flex-col items-center justify-center gap-5 p-5"
+        class="w-1/2 h-full bg-lime-500/80 rounded-r-lg flex flex-col items-center justify-center gap-5 p-5 max-[800px]:w-[100%] max-[800px]:h-[60%]"
         @submit.prevent="registeruser"
       >
         <div v-if="!forlogin" class="w-full flex flex-col items-center gap-4">
@@ -194,7 +202,7 @@ const registeruser = async () => {
               type="file"
               @change="handleFileUpload"
               accept="image/*"
-              class="w-50 h-8 border-2 bg-blue-300 rounded-lg cursor-pointer hover:scale-110"
+              class="w-full h-8 border-2 bg-blue-300 rounded-lg cursor-pointer hover:scale-105 text-center"
             />
           </div>
         </div>

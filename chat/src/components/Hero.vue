@@ -9,7 +9,7 @@ import FriendList from "./Friendlist.vue";
 const socket = io("http://localhost:3000");
 
 // Register the icon
-let friends = reactive([]);
+let friends = ref([]);
 
 //to hide or display user account
 let loginmatch = ref(false);
@@ -33,13 +33,14 @@ const messageLoad = async (friend) => {
 
 //to logout
 const logout = () => {
+  localStorage.removeItem("user");
   loginmatch.value = false;
 };
 
 let userimg = ref("");
 //friend update garna on friend add garda or delete garda
 const updatefriend = async (data) => {
-  friends = data.message;
+  friends.value = data.message;
   username.value = data.name;
   userid.value = data._id;
   userimg.value = data.image;
@@ -97,6 +98,32 @@ socket.on("message", (message) => {
   // Push the new message locally
   ourmessage.value[id].push([message.message, timestamp]);
   // console.log(message.message);
+});
+
+// Check localStorage on page load
+onMounted(async () => {
+  const user = localStorage.getItem("user");
+  if (!user) {
+    loginmatch.value = false;
+    return;
+  }
+
+  const parsedUser = JSON.parse(user); // Parse JSON string into an object
+  loginmatch.value = true;
+  userid.value = parsedUser._id;
+  let queryx = userid.value;
+
+  console.log(userid.value, username.value);
+
+  const response = await fetch(
+    `http://localhost:3000/reloaddata?query=${queryx}`
+  );
+  if (!response.ok) {
+    console.error(`Message send failed: ${response.status}`);
+  }
+  const data = await response.json();
+  console.log(data);
+  updatefriend(data);
 });
 </script>
 <template>

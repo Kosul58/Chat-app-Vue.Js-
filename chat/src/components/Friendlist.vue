@@ -26,6 +26,16 @@ const messageLoad = async (index) => {
 
 let friendx = ref(props.friends);
 
+// Watch for changes in props.friends
+watch(
+  () => props.friends,
+  (newFriends) => {
+    // Update friendx whenever props.friends changes
+    friendx.value = newFriends;
+  },
+  { immediate: true } // This ensures that the watcher runs on initial load as well
+);
+
 //hamburger controls start here
 let y = ref(true);
 
@@ -158,7 +168,7 @@ const addfriend = async (index) => {
         />
         <button
           type="submit"
-          class="w-1/5 h-4/5 text-lg flex items-center justify-center rounded-md bg-white hover:bg-green-300 hover:scale-110 cursor-pointer"
+          class="w-1/5 h-4/5 text-lg flex items-center justify-center rounded-md bg-white hover:bg-green-500 hover:scale-110 cursor-pointer shadow-2xl"
         >
           Search
         </button>
@@ -181,7 +191,7 @@ const addfriend = async (index) => {
           <img
             :src="result.image"
             alt="Profile Image"
-            class="w-20 h-20 object-contain rounded-full"
+            class="w-20 h-20 rounded-full"
           />
           <h1 class="text-black text-2xl">{{ result.name }}</h1>
           <button
@@ -196,11 +206,11 @@ const addfriend = async (index) => {
       <div
         v-for="(friend, index) in friendx"
         :key="friend.id"
-        class="my-2 w-11/12 min-h-20 rounded-lg text-white bg-gray-300/80 flex items-center justify-center text-2xl cursor-pointer"
+        class="my-2 w-11/12 min-h-20 rounded-lg text-white bg-gray-300 shadow-xl flex items-center justify-center text-2xl cursor-pointer gap-4"
         @click="messageLoad(index)"
       >
         <img :src="friend.image" :alt="index" class="w-16 h-16 rounded-full" />
-        {{ friend.name }}
+        <h1 class="font-mono text-3xl">{{ friend.name }}</h1>
       </div>
     </div>
 
@@ -211,13 +221,15 @@ const addfriend = async (index) => {
       Log Out
     </button>
   </div>
+
+  <!-- hamburger starts yeta bata -->
   <div
     v-if="x"
-    class="w-[70%] h-[80%] absolute left-[3%] top-[3%] flex items-center justify-center"
+    class="w-[400px] h-[600px] absolute top-1/2 -translate-y-1/2 left-[15px] flex items-center justify-center max-[450px]:w-[300px]"
   >
     <OhVueIcon
       name="gi-hamburger-menu"
-      class="w-12 h-12 text-amber-50 cursor-pointer hover:scale-120 absolute top-1.5 left-1.5"
+      class="w-12 h-12 text-black cursor-pointer hover:scale-120 absolute top-1.5 left-1.5 max-sm:left-0.5"
       v-if="y"
       @click="showburger"
     />
@@ -229,12 +241,19 @@ const addfriend = async (index) => {
         class="absolute top-[4%] right-[8%] w-5 h-5 rounded-2xl bg-amber-950 cursor-pointer hover:bg-red-800 hover:scale-110"
         @click="showburger"
       ></div>
-      <h1 class="text-whitesmoke text-2xl">{{ props.username }}</h1>
+      <div class="flex items-center justify-center gap-4 w-[100%] mt-1">
+        <img
+          :src="userimg"
+          alt="Profile Image"
+          class="w-20 h-20 rounded-full"
+        />
+        <h1 class="text-3xl py-1 font-mono">{{ props.username }}</h1>
+      </div>
       <div
-        class="w-full h-4/5 flex flex-col items-center justify-start overflow-y-auto scrollbar-hide"
+        class="w-full h-7/9 flex flex-col items-center justify-start overflow-y-auto scrollbar-hide"
       >
         <form
-          class="mt-2 w-11/12 h-12 bg-gray-300/80 rounded-xl flex items-center justify-center gap-2"
+          class="mt-2 w-11/12 h-12 bg-green-300/80 rounded-xl flex items-center justify-center gap-2 min-h-[50px]"
           @submit.prevent="searchuser"
         >
           <input
@@ -244,31 +263,35 @@ const addfriend = async (index) => {
           />
           <button
             type="submit"
-            class="w-1/5 h-4/5 text-lg flex items-center justify-center rounded-md bg-white hover:bg-green-300 hover:scale-110"
+            class="w-1/5 h-4/5 text-lg flex items-center justify-center rounded-md bg-white hover:bg-green-300 hover:scale-110 cursor-pointer"
           >
             Search
           </button>
         </form>
-
         <div
           v-if="searchcontrol"
-          class="bg-gray-200/80 w-11/12 min-h-fit mt-2 rounded-md flex flex-col items-center"
+          class="bg-green-200/80 w-11/12 min-h-fit mt-2 rounded-md flex flex-col items-center"
         >
           <div class="w-full h-5 flex justify-end">
             <div
-              class="w-4 h-4 bg-red-500 rounded-full cursor-pointer hover:scale-110"
+              class="w-4 h-4 bg-red-500 rounded-full cursor-pointer hover:scale-110 mr-1 mt-1"
               @click="closesearchresult()"
             ></div>
           </div>
           <div
             v-for="(result, index) of searchresult"
             :key="result._id"
-            class="w-11/12 h-12 bg-white/80 my-1 flex items-center justify-center gap-5 rounded-md"
+            class="w-11/12 h-[100px] bg-white/80 my-1 flex items-center justify-center gap-5 rounded-md"
           >
-            <h1 class="text-black text-lg">{{ result.name }}</h1>
+            <img
+              :src="result.image"
+              alt="Profile Image"
+              class="w-20 h-20 rounded-full"
+            />
+            <h1 class="text-black text-2xl">{{ result.name }}</h1>
             <button
               @click="addfriend(index)"
-              class="hover:bg-green-300 cursor-pointer px-3 py-1 rounded-md bg-amber-200"
+              class="hover:bg-green-300 cursor-pointer px-3 py-1 rounded-md bg-amber-200 w-20 h-10 text-2xl font-serif"
             >
               Add
             </button>
@@ -276,18 +299,23 @@ const addfriend = async (index) => {
         </div>
 
         <div
-          v-for="(friend, index) in friends"
+          v-for="(friend, index) in friendx"
           :key="friend.id"
-          class="my-2 w-3/4 min-h-10 rounded-lg text-white bg-gray-300/80 flex items-center justify-center text-2xl cursor-pointer"
+          class="my-2 w-11/12 min-h-20 rounded-lg text-white bg-gray-300/80 flex items-center justify-center text-2xl cursor-pointer"
           @click="messageLoad(index)"
         >
+          <img
+            :src="friend.image"
+            :alt="index"
+            class="w-16 h-16 rounded-full"
+          />
           {{ friend.name }}
         </div>
       </div>
 
       <button
         @click="logout()"
-        class="w-24 h-10 border-none cursor-pointer rounded-md bg-white hover:bg-red-500 hover:scale-110"
+        class="w-24 h-10 border-none cursor-pointer rounded-md bg-white hover:bg-red-500 hover:scale-110 mb-2"
       >
         Log Out
       </button>
