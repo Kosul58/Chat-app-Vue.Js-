@@ -65,13 +65,16 @@ const handleSendMessage = async (message) => {
     ourmessage.value[id].push([message, timestamp]);
 
     // Send message to the database
-    const response = await fetch("http://localhost:3000/sendmymessage", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ msg: message, uid: id, fid: fid }),
-    });
+    const response = await fetch(
+      "https://chat-app-vue-js.onrender.com/sendmymessage",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ msg: message, uid: id, fid: fid }),
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`Message send failed: ${response.status}`);
@@ -116,7 +119,7 @@ onMounted(async () => {
   console.log(userid.value, username.value);
 
   const response = await fetch(
-    `http://localhost:3000/reloaddata?query=${queryx}`
+    `https://chat-app-vue-js.onrender.com/reloaddata?query=${queryx}`
   );
   if (!response.ok) {
     console.error(`Message send failed: ${response.status}`);

@@ -91,13 +91,16 @@ const searchuser = async () => {
       searchcontrol.value = false;
       return;
     }
-    const response = await fetch("http://localhost:3000/searchuser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name: searchinput.value }),
-    });
+    const response = await fetch(
+      "https://chat-app-vue-js.onrender.com/searchuser",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: searchinput.value }),
+      }
+    );
     const data = await response.json();
     // console.log(data.length);
     if (data.length >= 1) {
@@ -121,13 +124,16 @@ const addfriend = async (index) => {
     const myid = props.userid;
     const friendid = searchresult.value[index]._id;
     // console.log(myid, friendid);
-    const response = await fetch("http://localhost:3000/addfriend", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ myid, friendid }),
-    });
+    const response = await fetch(
+      "https://chat-app-vue-js.onrender.com/addfriend",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ myid, friendid }),
+      }
+    );
     const data = await response.json();
     console.log(data);
     if (data === "already friends") {

@@ -30,16 +30,19 @@ const loginuser = async () => {
 
       // console.log("Login Attempt:", lusername.value, lpassword.value);
 
-      const response = await fetch("http://localhost:3000/loginuser", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: lusername.value,
-          password: lpassword.value,
-        }),
-      });
+      const response = await fetch(
+        "https://chat-app-vue-js.onrender.com/loginuser",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: lusername.value,
+            password: lpassword.value,
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`Login failed: ${response.status}`);
@@ -86,10 +89,13 @@ const registeruser = async () => {
       formData.append("password", password.value);
       formData.append("image", imageFile.value); // Append the file
 
-      const response = await fetch("http://localhost:3000/registeruser", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "https://chat-app-vue-js.onrender.com/registeruser",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Register Failed");
