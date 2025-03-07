@@ -254,7 +254,7 @@ let group = ref(false);
       class="w-[600px] h-[800px] bg-blue-500 rounded-2xl flex items-center justify-center flex-col fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-[800px]:w-[400px] max-[800px]:h-[600px] max-[520px]:w-[80vw] max-[520px]:h-[600px]"
     >
       <div
-        class="absolute top-[4%] right-[4%] w-8 h-8 rounded-2xl bg-amber-950 cursor-pointer hover:bg-red-800 hover:scale-110"
+        class="absolute top-[2%] right-[2%] w-4 h-4 rounded-2xl bg-amber-950 cursor-pointer hover:bg-red-800 hover:scale-110"
         @click="showburger"
       ></div>
       <div class="flex items-center justify-center gap-4 w-[100%] mt-1">
@@ -267,14 +267,13 @@ let group = ref(false);
         <OhVueIcon
           name="md-addcircle"
           class="w-10 h-10 text-white cursor-pointer hover:scale-120"
-          v-if="y"
           @click="showburger"
           @mouseenter="group = true"
           @mouseleave="group = false"
         />
         <h2
           v-if="group"
-          class="absolute right-[-40px] w-fit px-2 rounded-md h-8 bg-red-200 flex items-center justify-start"
+          class="absolute bottom-[-40px] w-fit px-2 rounded-md h-8 bg-red-200 flex items-center justify-start"
         >
           Create Group
         </h2>
