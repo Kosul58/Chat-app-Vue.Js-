@@ -11,9 +11,10 @@ import {
 
 import { OhVueIcon, addIcons } from "oh-vue-icons";
 import { GiHamburgerMenu } from "oh-vue-icons/icons";
-
+import { MdAddcircle } from "oh-vue-icons/icons";
 // Register the icon
 addIcons(GiHamburgerMenu);
+addIcons(MdAddcircle);
 // import { defineProps, defineEmits } from "vue";
 
 const props = defineProps(["friends", "username", "userid", "userimg"]);
@@ -142,6 +143,7 @@ const addfriend = async (index) => {
     nextTick();
   }
 };
+let group = ref(false);
 </script>
 
 <template>
@@ -149,16 +151,30 @@ const addfriend = async (index) => {
     class="w-2/7 h-[95%] rounded-xl flex flex-col items-center justify-start scrollbar-hide bg-blue-300/60 shadow-[0px_0px_10px_rgba(0,0,0,0.6)] gap-2"
     v-if="!x"
   >
-    <div class="flex items-center justify-center gap-4 w-[100%] mt-1">
+    <div class="flex items-center justify-center gap-4 w-[100%] mt-1 relative">
       <img :src="userimg" alt="Profile Image" class="w-20 h-20 rounded-full" />
       <h1 class="text-3xl py-1 font-mono">{{ props.username }}</h1>
+      <OhVueIcon
+        name="md-addcircle"
+        class="w-10 h-10 text-white cursor-pointer hover:scale-120"
+        v-if="y"
+        @click="showburger"
+        @mouseenter="group = true"
+        @mouseleave="group = false"
+      />
+      <h2
+        v-if="group"
+        class="absolute right-[-40px] w-fit px-2 rounded-md h-8 bg-red-200 flex items-center justify-start"
+      >
+        Create Group
+      </h2>
     </div>
 
     <div
       class="w-full h-7/9 flex flex-col items-center justify-start overflow-y-auto scrollbar-hide"
     >
       <form
-        class="mt-2 w-11/12 h-12 bg-green-300/80 rounded-xl flex items-center justify-center gap-2 min-h-[50px]"
+        class="mt-2 w-11/12 h-12 bg-green-300/80 rounded-xl flex items-center justify-center gap-2 min-h-[50px] shadow-2xl"
         @submit.prevent="searchuser"
       >
         <input
@@ -225,20 +241,20 @@ const addfriend = async (index) => {
   <!-- hamburger starts yeta bata -->
   <div
     v-if="x"
-    class="w-[400px] h-[600px] absolute top-1/2 -translate-y-1/2 left-[15px] flex items-center justify-center max-[450px]:w-[300px]"
+    class="w-[600px] h-[800px] absolute top-[40px] left-[20px] flex items-center justify-center max-[450px]:w-[300px] max-[750px]:left-[10px] max-[800px]:w-[400px] max-[800px]:h-[600px] max-[520px]:w-[80vw] max-[520px]:h-[600px]"
   >
     <OhVueIcon
       name="gi-hamburger-menu"
-      class="w-12 h-12 text-black cursor-pointer hover:scale-120 absolute top-1.5 left-1.5 max-sm:left-0.5"
+      class="w-12 h-12 text-black cursor-pointer hover:scale-120 absolute top-1.5 left-1.5 max-sm:left-0.5 max-[750px]:size-10 animate-pulse border-2 rounded-md"
       v-if="y"
       @click="showburger"
     />
     <div
       v-if="!y"
-      class="w-[90%] h-[95%] bg-blue-500 rounded-2xl flex items-center justify-center flex-col"
+      class="w-[600px] h-[800px] bg-blue-500 rounded-2xl flex items-center justify-center flex-col fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-[800px]:w-[400px] max-[800px]:h-[600px] max-[520px]:w-[80vw] max-[520px]:h-[600px]"
     >
       <div
-        class="absolute top-[4%] right-[8%] w-5 h-5 rounded-2xl bg-amber-950 cursor-pointer hover:bg-red-800 hover:scale-110"
+        class="absolute top-[4%] right-[4%] w-8 h-8 rounded-2xl bg-amber-950 cursor-pointer hover:bg-red-800 hover:scale-110"
         @click="showburger"
       ></div>
       <div class="flex items-center justify-center gap-4 w-[100%] mt-1">
@@ -248,6 +264,20 @@ const addfriend = async (index) => {
           class="w-20 h-20 rounded-full"
         />
         <h1 class="text-3xl py-1 font-mono">{{ props.username }}</h1>
+        <OhVueIcon
+          name="md-addcircle"
+          class="w-10 h-10 text-white cursor-pointer hover:scale-120"
+          v-if="y"
+          @click="showburger"
+          @mouseenter="group = true"
+          @mouseleave="group = false"
+        />
+        <h2
+          v-if="group"
+          class="absolute right-[-40px] w-fit px-2 rounded-md h-8 bg-red-200 flex items-center justify-start"
+        >
+          Create Group
+        </h2>
       </div>
       <div
         class="w-full h-7/9 flex flex-col items-center justify-start overflow-y-auto scrollbar-hide"
