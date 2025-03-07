@@ -21,7 +21,7 @@ const props = defineProps(["friends", "username", "userid", "userimg"]);
 const emit = defineEmits(["friendclick", "logout", "update-friend"]);
 
 const messageLoad = async (index) => {
-  console.log(friendx.value[index]);
+  activeFriendIndex.value = index;
   emit("friendclick", friendx.value[index]); // parrent lai k load garni ho pathaudai
 };
 
@@ -150,6 +150,7 @@ const addfriend = async (index) => {
   }
 };
 let group = ref(false);
+const activeFriendIndex = ref(null);
 </script>
 
 <template>
@@ -228,8 +229,11 @@ let group = ref(false);
       <div
         v-for="(friend, index) in friendx"
         :key="friend.id"
-        class="my-2 w-11/12 min-h-20 rounded-lg text-white bg-gray-300 shadow-xl flex items-center justify-center text-2xl cursor-pointer gap-4"
         @click="messageLoad(index)"
+        :class="[
+          'my-2 w-11/12 min-h-20 rounded-lg text-white bg-gray-300 shadow-xl flex items-center justify-center text-2xl cursor-pointer gap-4',
+          activeFriendIndex === index ? 'bg-yellow-400' : '',
+        ]"
       >
         <img :src="friend.image" :alt="index" class="w-16 h-16 rounded-full" />
         <h1 class="font-mono text-3xl">{{ friend.name }}</h1>
