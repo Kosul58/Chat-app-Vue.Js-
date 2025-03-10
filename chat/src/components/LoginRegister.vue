@@ -17,6 +17,20 @@ let password = ref();
 let cpassword = ref();
 let email = ref();
 
+//throtle function
+function throttle(func, limit) {
+  let call = false;
+  return function () {
+    if (!call) {
+      call = true;
+      func();
+      setTimeout(() => {
+        call = false;
+      }, limit);
+    }
+  };
+}
+
 //database ma user ko details search garna
 const loginuser = async () => {
   if (forlogin.value == false) {
@@ -24,7 +38,7 @@ const loginuser = async () => {
   } else {
     try {
       if (!lusername.value || !lpassword.value) {
-        console.log("Please enter both username and password.");
+        alert("Please enter both username and password.");
         return;
       }
 
@@ -48,8 +62,11 @@ const loginuser = async () => {
         throw new Error(`Login failed: ${response.status}`);
       }
       const data = await response.json();
-      // console.log(data);
-
+      console.log(data);
+      if (data == "no users") {
+        alert("No User Found");
+        return;
+      }
       localStorage.setItem("user", JSON.stringify(data));
 
       emit("update-login", true);
@@ -118,6 +135,14 @@ const registeruser = async () => {
     }
   }
 };
+
+const throttledLoginUser = throttle(async () => {
+  await loginuser();
+}, 5000); // 5-second throttle
+
+const throttledRegisterUser = throttle(async () => {
+  await registeruser();
+}, 5000); // 5-second throttle
 </script>
 <template>
   <div
@@ -130,7 +155,7 @@ const registeruser = async () => {
       <!-- Login Form -->
       <form
         class="w-1/2 h-full bg-orange-300 rounded-l-lg flex flex-col items-center justify-center gap-5 p-5 max-[800px]:w-[100%] max-[800px]:h-[40%] max-[]"
-        @submit.prevent="loginuser"
+        @submit.prevent="throttledLoginUser"
       >
         <div v-if="forlogin" class="w-full flex flex-col items-center gap-4">
           <div class="w-3/4 flex flex-col">
@@ -163,7 +188,7 @@ const registeruser = async () => {
       <!-- Register Form -->
       <form
         class="w-1/2 h-full bg-lime-500/80 rounded-r-lg flex flex-col items-center justify-center gap-5 p-5 max-[800px]:w-[100%] max-[800px]:h-[60%]"
-        @submit.prevent="registeruser"
+        @submit.prevent="throttledRegisterUser"
       >
         <div v-if="!forlogin" class="w-full flex flex-col items-center gap-4">
           <div class="w-3/4 flex flex-col">

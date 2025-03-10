@@ -12,13 +12,29 @@ import {
 import { OhVueIcon, addIcons } from "oh-vue-icons";
 import { GiHamburgerMenu } from "oh-vue-icons/icons";
 import { MdAddcircle } from "oh-vue-icons/icons";
+import { IoCloseCircleSharp } from "oh-vue-icons/icons";
 // Register the icon
 addIcons(GiHamburgerMenu);
 addIcons(MdAddcircle);
+addIcons(IoCloseCircleSharp);
 // import { defineProps, defineEmits } from "vue";
 
 const props = defineProps(["friends", "username", "userid", "userimg"]);
 const emit = defineEmits(["friendclick", "logout", "update-friend"]);
+
+//throtle function
+function throttle(func, limit) {
+  let call = false;
+  return function (...args) {
+    if (!call) {
+      call = true;
+      func(...args);
+      setTimeout(() => {
+        call = false;
+      }, limit);
+    }
+  };
+}
 
 const messageLoad = async (index) => {
   activeFriendIndex.value = index;
@@ -149,6 +165,15 @@ const addfriend = async (index) => {
     nextTick();
   }
 };
+
+const throttledsearchuser = throttle(async () => {
+  await searchuser();
+}, 5000); // 5-second throttle
+
+const throttledaddfriend = throttle(async (index) => {
+  await addfriend(index);
+}, 5000); // 5-second throttle
+
 let group = ref(false);
 const activeFriendIndex = ref(null);
 </script>
@@ -182,7 +207,7 @@ const activeFriendIndex = ref(null);
     >
       <form
         class="mt-2 w-11/12 h-12 bg-green-300/80 rounded-xl flex items-center justify-center gap-2 min-h-[50px] shadow-2xl"
-        @submit.prevent="searchuser"
+        @submit.prevent="throttledsearchuser"
       >
         <input
           type="text"
@@ -201,10 +226,11 @@ const activeFriendIndex = ref(null);
         class="bg-green-200/80 w-11/12 min-h-fit mt-2 rounded-md flex flex-col items-center"
       >
         <div class="w-full h-5 flex justify-end">
-          <div
-            class="w-4 h-4 bg-red-500 rounded-full cursor-pointer hover:scale-110 mr-1 mt-1"
+          <OhVueIcon
+            name="io-close-circle-sharp"
+            class="w-5 h-5 rounded-full cursor-pointer hover:scale-110 mr-1 mt-1"
             @click="closesearchresult()"
-          ></div>
+          />
         </div>
         <div
           v-for="(result, index) of searchresult"
@@ -218,7 +244,7 @@ const activeFriendIndex = ref(null);
           />
           <h1 class="text-black text-2xl">{{ result.name }}</h1>
           <button
-            @click="addfriend(index)"
+            @click="throttledaddfriend(index)"
             class="hover:bg-green-300 cursor-pointer px-3 py-1 rounded-md bg-amber-200 w-20 h-10 text-2xl font-serif"
           >
             Add
@@ -251,7 +277,7 @@ const activeFriendIndex = ref(null);
   <!-- hamburger starts yeta bata -->
   <div
     v-if="x"
-    class="w-[600px] h-[800px] absolute top-[40px] left-[20px] flex items-center justify-center max-[450px]:w-[300px] max-[750px]:left-[10px] max-[800px]:w-[400px] max-[800px]:h-[600px] max-[520px]:w-[80vw] max-[520px]:h-[600px]"
+    class="absolute top-[40px] left-[20px] flex items-center justify-center max-[750px]:left-[10px]"
   >
     <OhVueIcon
       name="gi-hamburger-menu"
@@ -261,12 +287,13 @@ const activeFriendIndex = ref(null);
     />
     <div
       v-if="!y"
-      class="w-[600px] h-[800px] bg-blue-500 rounded-2xl flex items-center justify-center flex-col fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-[800px]:w-[400px] max-[800px]:h-[600px] max-[520px]:w-[80vw] max-[520px]:h-[600px]"
+      class="w-[600px] h-[800px] bg-blue-500 rounded-2xl flex items-center justify-center flex-col fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-[800px]:w-[400px] max-[800px]:h-[700px] max-[520px]:w-[90vw] max-[520px]:h-[600px] max-h-[90vh]"
     >
-      <div
-        class="absolute top-[2%] right-[2%] w-4 h-4 rounded-2xl bg-amber-950 cursor-pointer hover:bg-red-800 hover:scale-110"
+      <OhVueIcon
+        name="io-close-circle-sharp"
+        class="absolute top-[2%] right-[2%] w-8 h-8 rounded-2xl cursor-pointer hover:scale-110 text-white hover:text-red-600"
         @click="showburger"
-      ></div>
+      />
       <div class="flex items-center justify-center gap-4 w-[100%] mt-1">
         <img
           :src="userimg"
@@ -276,7 +303,7 @@ const activeFriendIndex = ref(null);
         <h1 class="text-3xl py-1 font-mono">{{ props.username }}</h1>
         <OhVueIcon
           name="md-addcircle"
-          class="w-10 h-10 text-white cursor-pointer hover:scale-120"
+          class="w-10 h-10 text-white cursor-pointer hover:scale-120 max-sm:size-7"
           @click="showburger"
           @mouseenter="group = true"
           @mouseleave="group = false"
@@ -312,10 +339,11 @@ const activeFriendIndex = ref(null);
           class="bg-green-200/80 w-11/12 min-h-fit mt-2 rounded-md flex flex-col items-center"
         >
           <div class="w-full h-5 flex justify-end">
-            <div
-              class="w-4 h-4 bg-red-500 rounded-full cursor-pointer hover:scale-110 mr-1 mt-1"
+            <OhVueIcon
+              name="io-close-circle-sharp"
+              class="w-5 h-5 rounded-full cursor-pointer hover:scale-110 mr-1 mt-1"
               @click="closesearchresult()"
-            ></div>
+            />
           </div>
           <div
             v-for="(result, index) of searchresult"
@@ -329,7 +357,7 @@ const activeFriendIndex = ref(null);
             />
             <h1 class="text-black text-2xl">{{ result.name }}</h1>
             <button
-              @click="addfriend(index)"
+              @click="throttledaddfriend(index)"
               class="hover:bg-green-300 cursor-pointer px-3 py-1 rounded-md bg-amber-200 w-20 h-10 text-2xl font-serif"
             >
               Add
