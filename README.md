@@ -1,3 +1,3 @@
-Website Link: https://chat-app-vue-js.onrender.com
+Website Link: https://chat-app-vue-js.vercel.app/
 
-![Screenshot 2025-03-07 111406](https://github.com/user-attachments/assets/0b64506e-ae81-4411-b854-369cffdb6b29)
+![Screenshot 2025-03-07 145457](https://github.com/user-attachments/assets/2801a438-fdd1-4e11-afb9-1eacbd7bcbfe)
