@@ -179,7 +179,7 @@ const throttledRegisterUser = throttle(async () => {
         </div>
         <button
           type="submit"
-          class="w-24 h-10 rounded-md bg-black text-white transition-transform hover:scale-110 hover:bg-green-600"
+          class="w-24 h-10 rounded-md bg-black text-white transition-transform hover:scale-110 hover:bg-green-600 cursor-pointer"
         >
           Login
         </button>
@@ -239,7 +239,7 @@ const throttledRegisterUser = throttle(async () => {
         </div>
         <button
           type="submit"
-          class="w-24 h-10 rounded-md bg-white text-black transition-transform hover:scale-110 hover:bg-blue-700 hover:text-white"
+          class="w-24 h-10 rounded-md bg-white text-black transition-transform hover:scale-110 hover:bg-blue-700 hover:text-white cursor-pointer"
         >
           Sign Up
         </button>
