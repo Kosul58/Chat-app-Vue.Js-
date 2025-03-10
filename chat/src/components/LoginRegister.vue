@@ -150,11 +150,11 @@ const throttledRegisterUser = throttle(async () => {
     class="w-[80dvw] h-[80dvh] bg-indigo-300 rounded-2xl shadow-xl flex items-center justify-around max-md:flex-wrap max-[800px]:h-[900px] max-[800px]:w-[60%] m-4 max-md:w-[400px]"
   >
     <div
-      class="w-[95%] h-[95%] flex items-center justify-center max-[800px]:flex-wrap"
+      class="w-[95%] h-[95%] flex items-center justify-center max-[1300px]:flex-wrap"
     >
       <!-- Login Form -->
       <form
-        class="w-1/2 h-full bg-orange-300 rounded-l-lg flex flex-col items-center justify-center gap-5 p-5 max-[800px]:w-[100%] max-[800px]:h-[40%] max-[]"
+        class="w-1/2 h-full bg-orange-300 xl:rounded-l-lg flex flex-col items-center justify-center gap-5 p-5 max-[1300px]:w-[70%] max-[1300px]:h-[40%] max-[1300px]:rounded-t-xl max-[800px]:w-[100%]"
         @submit.prevent="throttledLoginUser"
       >
         <div v-if="forlogin" class="w-full flex flex-col items-center gap-4">
@@ -187,7 +187,7 @@ const throttledRegisterUser = throttle(async () => {
 
       <!-- Register Form -->
       <form
-        class="w-1/2 h-full bg-lime-500/80 rounded-r-lg flex flex-col items-center justify-center gap-5 p-5 max-[800px]:w-[100%] max-[800px]:h-[60%]"
+        class="w-1/2 h-full bg-lime-500/80 xl:rounded-r-lg flex flex-col items-center justify-center gap-5 p-5 max-[1300px]:w-[70%] max-[1300px]:h-[60%] max-[800px]:w-[100%] max-[1300px]:rounded-b-xl"
         @submit.prevent="throttledRegisterUser"
       >
         <div v-if="!forlogin" class="w-full flex flex-col items-center gap-4">
