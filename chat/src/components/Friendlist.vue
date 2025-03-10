@@ -190,7 +190,6 @@ const activeFriendIndex = ref(null);
         name="md-addcircle"
         class="w-10 h-10 text-white cursor-pointer hover:scale-120"
         v-if="y"
-        @click="showburger"
         @mouseenter="group = true"
         @mouseleave="group = false"
       />
@@ -304,7 +303,6 @@ const activeFriendIndex = ref(null);
         <OhVueIcon
           name="md-addcircle"
           class="w-10 h-10 text-white cursor-pointer hover:scale-120 max-sm:size-7"
-          @click="showburger"
           @mouseenter="group = true"
           @mouseleave="group = false"
         />

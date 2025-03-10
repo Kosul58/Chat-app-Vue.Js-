@@ -103,8 +103,7 @@ socket.on("message", (message) => {
   // console.log(message.message);
 });
 
-// Check localStorage on page load
-onMounted(async () => {
+const fetchuserdata = async () => {
   const user = localStorage.getItem("user");
   if (!user) {
     loginmatch.value = false;
@@ -126,6 +125,15 @@ onMounted(async () => {
   const data = await response.json();
   console.log(data);
   updatefriend(data);
+  return data;
+};
+
+// Check localStorage on page load
+onMounted(async () => {
+  const data = await fetchuserdata();
+  if (data.length < 1) {
+    await fetchuserdata();
+  }
 });
 </script>
 <template>
