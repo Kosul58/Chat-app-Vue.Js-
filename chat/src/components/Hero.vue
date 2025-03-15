@@ -33,7 +33,8 @@ const messageLoad = async (friend) => {
 
 //to logout
 const logout = () => {
-  localStorage.removeItem("user");
+  sessionStorage.removeItem("user");
+  // localStorage.removeItem("user");
   loginmatch.value = false;
 };
 
@@ -104,7 +105,8 @@ socket.on("message", (message) => {
 });
 
 const fetchuserdata = async () => {
-  const user = localStorage.getItem("user");
+  const user = sessionStorage.getItem("user");
+  // const user = localStorage.getItem("user");
   if (!user) {
     loginmatch.value = false;
     return;

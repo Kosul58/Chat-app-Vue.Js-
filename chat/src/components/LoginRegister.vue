@@ -67,7 +67,8 @@ const loginuser = async () => {
         alert("No User Found");
         return;
       }
-      localStorage.setItem("user", JSON.stringify(data));
+      sessionStorage.setItem("user", JSON.stringify(data));
+      // localStorage.setItem("user", JSON.stringify(data));
 
       emit("update-login", true);
       emit("update-friend", data);
@@ -119,8 +120,8 @@ const registeruser = async () => {
       }
       const data = await response.json();
 
-      localStorage.setItem("user", JSON.stringify(data));
-
+      // localStorage.setItem("user", JSON.stringify(data));
+      sessionStorage.setItem("user", JSON.stringify(data));
       if (data == 0) {
         alert("User already exists");
       } else {

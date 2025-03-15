@@ -38,22 +38,27 @@ const sortedmessage = computed(() => {
 
 //sathi lai message pathauna
 const sendMessage = () => {
-  console.log(props.currentid, props.userid);
-  if (newMessage.value.trim() === "") {
-    alert("no message");
-    return;
-  }
-  // Emit event to parent with new message
-  emit("send-message", newMessage.value);
-  newMessage.value = "";
-  // console.log("aass");
-  // console.log(messageboxRef.value);
-
-  nextTick(() => {
-    if (messageboxRef.value) {
-      messageboxRef.value.scrollTop = messageboxRef.value.scrollHeight;
+  try {
+    console.log(props.currentid, props.userid);
+    if (newMessage.value.trim() === "") {
+      alert("no message");
+      emojishower.value = false;
+      return;
     }
-  });
+    emojishower.value = false;
+    // Emit event to parent with new message
+    emit("send-message", newMessage.value);
+    newMessage.value = "";
+    // console.log("aass");
+    // console.log(messageboxRef.value);
+  } catch {
+  } finally {
+    nextTick(() => {
+      if (messageboxRef.value) {
+        messageboxRef.value.scrollTop = messageboxRef.value.scrollHeight;
+      }
+    });
+  }
 };
 let emojishower = ref(false);
 function showEmoji() {
