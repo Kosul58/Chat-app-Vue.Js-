@@ -6,7 +6,7 @@ import Messages from "./Messages.vue";
 import FriendList from "./Friendlist.vue";
 
 // WebSocket connection
-const socket = io("http://localhost:3000");
+const socket = io("https://chat-app-vue-js.onrender.com");
 
 // Register the icon
 let friends = ref([]);
