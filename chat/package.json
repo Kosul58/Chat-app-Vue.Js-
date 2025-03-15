@@ -10,10 +10,12 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.6",
+    "emoji-mart-vue-fast": "^15.0.4",
     "oh-vue-icons": "^1.0.0-rc3",
     "socket.io-client": "^4.8.1",
     "tailwindcss": "^4.0.6",
-    "vue": "^3.5.13"
+    "vue": "^3.5.13",
+    "vue3-emoji-picker": "^1.1.8"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",

@@ -2,9 +2,12 @@
 import { ref, computed, nextTick, defineExpose } from "vue";
 import { OhVueIcon, addIcons } from "oh-vue-icons";
 import { CoSend } from "oh-vue-icons/icons";
+import Emoji from "./Emoji.vue";
+import { BiEmojiSmileFill } from "oh-vue-icons/icons";
 
 // Register the icon
 addIcons(CoSend);
+addIcons(BiEmojiSmileFill);
 const props = defineProps(["ourmessage", "currentid", "userid"]);
 const emit = defineEmits(["send-message"]);
 
@@ -12,6 +15,10 @@ const emit = defineEmits(["send-message"]);
 const newMessage = ref("");
 
 const messageboxRef = ref(null);
+
+function setEmojifromchild(data) {
+  newMessage.value = newMessage.value + data;
+}
 
 //message haru lai time ra sender anusar sort garna
 const sortedmessage = computed(() => {
@@ -39,8 +46,8 @@ const sendMessage = () => {
   // Emit event to parent with new message
   emit("send-message", newMessage.value);
   newMessage.value = "";
-  console.log("aass");
-  console.log(messageboxRef.value);
+  // console.log("aass");
+  // console.log(messageboxRef.value);
 
   nextTick(() => {
     if (messageboxRef.value) {
@@ -48,6 +55,10 @@ const sendMessage = () => {
     }
   });
 };
+let emojishower = ref(false);
+function showEmoji() {
+  emojishower.value = !emojishower.value;
+}
 </script>
 
 <template>
@@ -84,9 +95,19 @@ const sendMessage = () => {
             class="w-full h-full border-none outline-none rounded-md text-xl px-2"
           />
         </div>
+        <Emoji
+          @childemoji="setEmojifromchild"
+          v-if="emojishower"
+          class="absolute bottom-[15%] right-[5%]"
+        />
+        <OhVueIcon
+          name="bi-emoji-smile-fill"
+          class="w-8 h-8 text-white cursor-pointer hover:scale-110 mr-2"
+          @click="showEmoji"
+        />
         <OhVueIcon
           name="co-send"
-          class="w-12 h-12 text-white cursor-pointer hover:scale-125 hover:text-green-600"
+          class="w-12 h-12 text-white cursor-pointer hover:scale-125 hover:text-green-600 mr-2"
           @click="sendMessage"
         />
       </div>

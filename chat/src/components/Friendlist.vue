@@ -174,7 +174,7 @@ const throttledaddfriend = throttle(async (index) => {
   await addfriend(index);
 }, 5000); // 5-second throttle
 
-let group = ref(false);
+let grouppop = ref(false);
 const activeFriendIndex = ref(null);
 </script>
 
@@ -183,19 +183,19 @@ const activeFriendIndex = ref(null);
     class="w-2/7 h-[95%] rounded-xl flex flex-col items-center justify-start scrollbar-hide bg-blue-300/60 shadow-[0px_0px_10px_rgba(0,0,0,0.6)] gap-2"
     v-if="!x"
   >
-    <div class="flex items-center justify-center gap-4 w-[100%] mt-1 relative">
+    <div class="flex items-center justify-center gap-4 w-[80%] mt-1 relative">
       <img :src="userimg" alt="Profile Image" class="w-20 h-20 rounded-full" />
       <h1 class="text-3xl py-1 font-mono">{{ props.username }}</h1>
       <OhVueIcon
         name="md-addcircle"
-        class="w-10 h-10 text-white cursor-pointer hover:scale-120"
+        class="w-10 h-10 text-white cursor-pointer hover:scale-120 z-20"
         v-if="y"
-        @mouseenter="group = true"
-        @mouseleave="group = false"
+        @mouseenter="grouppop = true"
+        @mouseleave="grouppop = false"
       />
       <h2
-        v-if="group"
-        class="absolute right-[-40px] w-fit px-2 rounded-md h-8 bg-red-200 flex items-center justify-start"
+        v-if="grouppop"
+        class="absolute translate-x-44 w-fit px-2 rounded-md h-8 bg-red-200 flex items-center justify-start"
       >
         Create Group
       </h2>
@@ -290,10 +290,12 @@ const activeFriendIndex = ref(null);
     >
       <OhVueIcon
         name="io-close-circle-sharp"
-        class="absolute top-[2%] right-[2%] w-8 h-8 rounded-2xl cursor-pointer hover:scale-110 text-white hover:text-red-600"
+        class="absolute top-[2%] right-[2%] w-8 h-8 rounded-2xl cursor-pointer hover:scale-110 text-white hover:text-red-600 z-30"
         @click="showburger"
       />
-      <div class="flex items-center justify-center gap-4 w-[100%] mt-1">
+      <div
+        class="relative flex items-center justify-center gap-4 w-[100%] mt-1"
+      >
         <img
           :src="userimg"
           alt="Profile Image"
@@ -302,13 +304,13 @@ const activeFriendIndex = ref(null);
         <h1 class="text-3xl py-1 font-mono">{{ props.username }}</h1>
         <OhVueIcon
           name="md-addcircle"
-          class="w-10 h-10 text-white cursor-pointer hover:scale-120 max-sm:size-7"
-          @mouseenter="group = true"
-          @mouseleave="group = false"
+          class="w-10 h-10 text-white cursor-pointer hover:scale-120 max-sm:size-7 z-20"
+          @mouseenter="grouppop = true"
+          @mouseleave="grouppop = false"
         />
         <h2
-          v-if="group"
-          class="absolute bottom-[-40px] w-fit px-2 rounded-md h-8 bg-red-200 flex items-center justify-start"
+          v-if="grouppop"
+          class="absolute translate-x-22 translate-y-10 w-fit px-2 rounded-md h-8 bg-red-200 flex items-center justify-start"
         >
           Create Group
         </h2>

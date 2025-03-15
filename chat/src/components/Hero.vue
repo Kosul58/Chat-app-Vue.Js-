@@ -131,8 +131,10 @@ const fetchuserdata = async () => {
 // Check localStorage on page load
 onMounted(async () => {
   const data = await fetchuserdata();
-  if (data.length < 1) {
-    await fetchuserdata();
+  if (data) {
+    if (data.length < 1) {
+      await fetchuserdata();
+    }
   }
 });
 </script>
